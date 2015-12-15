@@ -1,2 +1,2 @@
-# DisCODeMock
-Mocking framework for components of DisCODe framework
+# DisCODe runner
+Framework for testing DisCODe components at runtime.
