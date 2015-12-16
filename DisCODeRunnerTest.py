@@ -11,8 +11,9 @@ class TestDisCODeRunner(unittest.TestCase):
         path = os.environ['PATH']
         self.assertEqual("DisCODe" in path, True)
 
-    def test_if_discode_installed(self):
-        self.assertEqual(self.runner.run(), "WARNING: Configuration file config.xml not found.")
+    def test_if_discode_runs(self):
+        message = self.runner.run()
+        self.assertEqual(message, "WARNING: Configuration file config.xml not found.")
 
 
 if __name__ == '__main__':
