@@ -6,8 +6,8 @@ class TestDisCODeRunner(unittest.TestCase):
     def setUp(self):
         self.runner = DisCODeRunner()
 
-    def test_nothing(self):
-        self.assertEquals(self.runner.run(), 1)
+    def test_if_discode_installed(self):
+        self.assertEqual(self.runner.run(), "WARNING: Configuration file config.xml not found.")
 
 if __name__ == '__main__':
     unittest.main()
