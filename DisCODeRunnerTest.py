@@ -25,8 +25,12 @@ class TestDisCODeRunner(unittest.TestCase):
 
     def test_if_discode_runs(self):
         message = self.runner.run()
-        # self.assertEqual(message, "WARNING: Configuration file config.xml not found.")
-        assert_that(message, equal_to("\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n"))
+        assert_that(message, contains_string("\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n"))
+
+    def test_displays_error_when_no_task_specified(self):
+        message = self.runner.run()
+        assert_that(message, contains_string("ERROR"))
+        assert_that(message, contains_string("No task specified!"))
 
 
 if __name__ == '__main__':

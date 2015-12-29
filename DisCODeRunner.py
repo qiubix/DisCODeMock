@@ -1,4 +1,3 @@
-import os
 import subprocess
 
 
@@ -7,9 +6,6 @@ class DisCODeRunner:
         pass
 
     def run(self):
-        # process = subprocess.Popen(['discode'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        # out, err = process.communicate()
-        process = os.popen('discode', "r")
-        firstLine = process.readline()
-        process.close()
-        return firstLine
+        process = subprocess.Popen(['discode'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        out, err = process.communicate()
+        return out
