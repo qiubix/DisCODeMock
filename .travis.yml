@@ -11,9 +11,9 @@ addons:
 #       - libatlas-base-dev
 #       - gfortran
 #       - python-scipy
-# install:
+install:
+  - pip install -v pyhamcrest
 #   - pip install --upgrade pip
-#   - pip install -v networkx
 before_script:
   - export PYTHONPATH='.'
   - export PATH=$PATH:/home/travis/src/DisCODe/build/inst/bin

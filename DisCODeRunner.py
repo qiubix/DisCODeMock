@@ -11,4 +11,5 @@ class DisCODeRunner:
         # out, err = process.communicate()
         process = os.popen('discode', "r")
         firstLine = process.readline()
+        process.close()
         return firstLine

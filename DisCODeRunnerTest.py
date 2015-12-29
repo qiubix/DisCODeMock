@@ -1,3 +1,4 @@
+from hamcrest import *
 import unittest
 from DisCODeRunner import DisCODeRunner
 
@@ -20,12 +21,12 @@ class TestDisCODeRunner(unittest.TestCase):
             if isExe(discodePath):
                 discodeExists = True
 
-        self.assertEqual(discodeExists, True)
+        assert_that(discodeExists, equal_to(True))
 
     def test_if_discode_runs(self):
         message = self.runner.run()
         # self.assertEqual(message, "WARNING: Configuration file config.xml not found.")
-        self.assertEqual(message, "\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n")
+        assert_that(message, equal_to("\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n"))
 
 
 if __name__ == '__main__':
