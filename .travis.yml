@@ -1,0 +1,23 @@
+language: python
+python:
+  - "3.4"
+addons:
+  apt:
+    sources:
+      - boost-latest
+    packages:
+      - libboost1.55-all-dev
+      - libopencv-dev
+#       - libatlas-base-dev
+#       - gfortran
+#       - python-scipy
+# install:
+#   - pip install --upgrade pip
+#   - pip install -v networkx
+before_script:
+  - export PYTHONPATH='.'
+  - export PATH=$PATH:/home/travis/src/DisCODe/build/inst/bin
+  - export DISCODE_DCL_DIR=/home/travis/src/DCL/
+  - ./install_discode.sh
+  - cd ~/build/qiubix/DisCODeRunner
+script: python DisCODeRunnerTest.py
