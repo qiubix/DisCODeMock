@@ -32,6 +32,11 @@ class TestDisCODeRunner(unittest.TestCase):
         assert_that(message, contains_string("ERROR"))
         assert_that(message, contains_string("No task specified!"))
 
+    def test_if_dcl_dir_exists(self):
+        import os
+        discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
+        assert_that(discode_dcl_dir, is_not(empty))
+
 
 if __name__ == '__main__':
     unittest.main()
