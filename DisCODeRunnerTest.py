@@ -44,7 +44,7 @@ class TestDisCODeRunner(unittest.TestCase):
 
     def test_if_discode_is_killed(self):
         self.runner.setTask("CvBasic:SequenceViewer")
-        self.runner.setFinishedFlag("ERROR")
+        self.runner.setTerminationFlag("ERROR")
 
         message = self.runner.run()
 

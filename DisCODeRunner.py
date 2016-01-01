@@ -19,7 +19,7 @@ class DisCODeRunner:
     def setTask(self, taskName):
         self.taskName = taskName
 
-    def setFinishedFlag(self, terminationStatement):
+    def setTerminationFlag(self, terminationStatement):
         self.terminationStatement = terminationStatement
 
 
