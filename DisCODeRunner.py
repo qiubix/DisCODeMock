@@ -4,6 +4,7 @@ import subprocess
 class DisCODeRunner:
     def __init__(self):
         self.taskName = ""
+        self.terminationStatement = ""
 
     def run(self):
         command = ["discode"]
@@ -11,10 +12,15 @@ class DisCODeRunner:
             command = ["discode", "-T " + self.taskName]
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         out, err = process.communicate()
+        # for line in process.stdout.readlines():
+        #     if line == exitStatement
         return out
 
     def setTask(self, taskName):
         self.taskName = taskName
+
+    def setFinishedFlag(self, terminationStatement):
+        self.terminationStatement = terminationStatement
 
 
 if __name__ == '__main__':
