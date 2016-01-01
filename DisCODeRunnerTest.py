@@ -42,6 +42,12 @@ class TestDisCODeRunner(unittest.TestCase):
         message = self.runner.run()
         assert_that(message, contains_string("Kopiowanie TASKA!"))
 
+    def test_if_discode_is_killed(self):
+        self.runner.setTask("CvBasic:SequenceViewer")
+        message = self.runner.run()
+        assert_that(message, contains_string("Finishing DisCODe."))
+        assert_that(message, contains_string("Server stopped."))
+
 
 if __name__ == '__main__':
     unittest.main()
