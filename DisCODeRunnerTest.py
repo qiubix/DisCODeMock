@@ -37,6 +37,11 @@ class TestDisCODeRunner(unittest.TestCase):
         discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
         assert_that(discode_dcl_dir, is_not(empty))
 
+    def test_if_discode_runs_with_task(self):
+        self.runner.setTask("CvBasic:SequenceViewer")
+        message = self.runner.run()
+        assert_that(message, contains_string("Kopiowanie TASKA!"))
+
 
 if __name__ == '__main__':
     unittest.main()
