@@ -9,12 +9,19 @@ class DisCODeRunner:
     def run(self):
         command = ["discode"]
         if self.taskName != "":
-            command = ["discode", "-T " + self.taskName]
+            command = ["discode", "-T" + self.taskName]
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-        out, err = process.communicate()
-        # for line in process.stdout.readlines():
-        #     if line == exitStatement
-        return out
+        # out, err = process.communicate()
+        # output = process.stdout.readlines()
+        if self.terminationStatement != "":
+            while True:
+                line = process.stdout.readline()
+                if self.terminationStatement in line:
+                    process.kill()
+                    break
+
+        # return out
+        return ''.join(process.stdout.readlines())
 
     def setTask(self, taskName):
         self.taskName = taskName
