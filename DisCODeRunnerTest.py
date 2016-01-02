@@ -1,3 +1,4 @@
+import time
 from hamcrest import *
 import unittest
 from DisCODeRunner import DisCODeRunner
@@ -24,32 +25,49 @@ class TestDisCODeRunner(unittest.TestCase):
         assert_that(discodeExists, equal_to(True))
 
     def test_if_discode_runs(self):
-        message = self.runner.run()
-        assert_that(message, contains_string("\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n"))
+        self.runner.run()
+
+        output = self.runner.readOutput()
+        assert_that(output, contains_string("\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n"))
 
     def test_displays_error_when_no_task_specified(self):
-        message = self.runner.run()
-        assert_that(message, contains_string("ERROR"))
-        assert_that(message, contains_string("No task specified!"))
+        self.runner.run()
+
+        output = self.runner.readOutput()
+        assert_that(output, contains_string("ERROR"))
+        assert_that(output, contains_string("No task specified!"))
 
     def test_if_dcl_dir_exists(self):
         import os
         discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
         assert_that(discode_dcl_dir, is_not(empty))
 
-    def test_if_discode_runs_with_task(self):
-        self.runner.setTask("CvBasic:SequenceViewer")
-        message = self.runner.run()
-        assert_that(message, contains_string("Kopiowanie TASKA!"))
+    # def test_if_discode_runs_with_task(self):
+    #     self.runner.setTask("CvBasic:SequenceViewer")
+    #     self.runner.run()
+    #
+    #     output = self.runner.readOutput()
+    #     assert_that(output, contains_string("Kopiowanie TASKA!"))
 
-    def test_if_discode_is_killed(self):
-        self.runner.setTask("CvBasic:SequenceViewer")
-        self.runner.setTerminationFlag("ERROR")
+    # def test_if_discode_is_killed_manually(self):
+    #     self.runner.setTask("CvBasic:SequenceViewer")
+    #     self.runner.run()
+    #     time.sleep(.500)
+    #
+    #     self.runner.kill()
+    #
+    #     output = self.runner.readOutput()
+    #     assert_that(output, contains_string("Finishing DisCODe."))
+    #     assert_that(output, contains_string("Server stopped."))
 
-        message = self.runner.run()
-
-        assert_that(message, contains_string("Finishing DisCODe."))
-        assert_that(message, contains_string("Server stopped."))
+    # def test_if_discode_is_killed(self):
+    #     self.runner.setTask("CvBasic:SequenceViewer")
+    #     self.runner.setTerminationFlag("ERROR")
+    #
+    #     message = self.runner.run()
+    #
+    #     assert_that(message, contains_string("Finishing DisCODe."))
+    #     assert_that(message, contains_string("Server stopped."))
 
 
 if __name__ == '__main__':
