@@ -53,6 +53,7 @@ class TestDisCODeRunner(unittest.TestCase):
         time.sleep(.500)
 
         output = self.runner.readOutput()
+        # print(output)
         assert_that(output, contains_string("Kopiowanie TASKA!"))
 
     # def test_if_discode_is_killed_manually(self):
