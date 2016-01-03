@@ -26,12 +26,16 @@ class TestDisCODeRunner(unittest.TestCase):
 
     def test_if_discode_runs(self):
         self.runner.run()
+        self.runner.runMonitor()
+        time.sleep(.500)
 
         output = self.runner.readOutput()
         assert_that(output, contains_string("\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n"))
 
     def test_displays_error_when_no_task_specified(self):
         self.runner.run()
+        self.runner.runMonitor()
+        time.sleep(.500)
 
         output = self.runner.readOutput()
         assert_that(output, contains_string("ERROR"))
