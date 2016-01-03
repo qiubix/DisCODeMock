@@ -7,10 +7,17 @@ log = ""
 
 
 class DisCODeProcess(Thread):
+    def __init__(self, taskName):
+        super().__init__()
+        self.taskName = taskName
+
     def run(self):
         global output
         # print("discode starting")
         command = ["discode"]
+        if self.taskName != "":
+            command = ["discode", "-T " + self.taskName]
+        print(command)
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                    universal_newlines=True)
         while True:
@@ -59,7 +66,7 @@ class DisCODeRunner:
         self.log = ""
 
     def run(self):
-        self.process = DisCODeProcess()
+        self.process = DisCODeProcess(self.taskName)
         self.process.daemon = True
         self.process.start()
 
