@@ -70,18 +70,19 @@ class TestDisCODeRunner(unittest.TestCase):
         self.runner.kill()
 
         output = self.runner.readOutput()
-        print(output)
+        # print(output)
         assert_that(output, contains_string("Finishing DisCODe."))
         assert_that(output, contains_string("Server stoped."))
 
-    # def test_if_discode_is_killed(self):
-    #     self.runner.setTask("CvBasic:SequenceViewer")
-    #     self.runner.setTerminationFlag("ERROR")
-    #
-    #     message = self.runner.run()
-    #
-    #     assert_that(message, contains_string("Finishing DisCODe."))
-    #     assert_that(message, contains_string("Server stopped."))
+    def test_if_discode_is_killed_on_termination_statement(self):
+        self.runner.taskName = "CvBasic:SequenceViewer"
+        self.runner.terminationStatement = 'ERROR'
+
+        self.runner.runDisCODe()
+
+        output = self.runner.readOutput()
+        assert_that(output, contains_string("Finishing DisCODe."))
+        assert_that(output, contains_string("Server stoped."))
 
 
 if __name__ == '__main__':

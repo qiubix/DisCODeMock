@@ -101,6 +101,13 @@ class DisCODeRunner:
         self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                         universal_newlines=True)
 
+        if self.terminationStatement != '':
+            while True:
+                line = self.process.stdout.readline()
+                if self.terminationStatement in line:
+                    self.process.send_signal(signal.SIGINT)
+                    break
+
     def kill(self):
         self.process.send_signal(signal.SIGINT)
         # self.discodeProcess.killSignal = True
