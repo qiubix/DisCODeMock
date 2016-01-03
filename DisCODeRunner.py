@@ -16,7 +16,7 @@ class DisCODeProcess(Thread):
         # print("discode starting")
         command = ["discode"]
         if self.taskName != "":
-            command = ["discode", "-T " + self.taskName]
+            command = ["discode", "-T" + self.taskName]
         print(command)
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -26,7 +26,7 @@ class DisCODeProcess(Thread):
             output.append(line)
             condition.notify()
             condition.release()
-            # print("DisCODe: ", line)
+            print("DisCODe: ", line)
 
             if line == "" or "Server stopped." in line:
                 break
@@ -64,6 +64,8 @@ class DisCODeRunner:
         self.killSignal = False
         self.output = ""
         self.log = ""
+        global log
+        log = ""
 
     def run(self):
         self.process = DisCODeProcess(self.taskName)
