@@ -30,17 +30,19 @@ class TestDisCODeRunner(unittest.TestCase):
         assert_that(discode_dcl_dir, is_not(empty))
 
     def test_if_discode_runs(self):
-        self.runner.run()
-        self.runner.runMonitor()
-        time.sleep(.500)
+        # self.runner.run()
+        # self.runner.runMonitor()
+        self.runner.runDisCODe()
+        # time.sleep(.500)
 
         output = self.runner.readOutput()
         assert_that(output, contains_string("\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n"))
 
     def test_displays_error_when_no_task_specified(self):
-        self.runner.run()
-        self.runner.runMonitor()
-        time.sleep(.500)
+        # self.runner.run()
+        # self.runner.runMonitor()
+        self.runner.runDisCODe()
+        # time.sleep(.500)
 
         output = self.runner.readOutput()
         assert_that(output, contains_string("ERROR"))
@@ -48,24 +50,29 @@ class TestDisCODeRunner(unittest.TestCase):
 
     def test_if_discode_runs_with_task(self):
         self.runner.taskName = "CvBasic:SequenceViewer"
-        self.runner.run()
-        self.runner.runMonitor()
+        # self.runner.run()
+        # self.runner.runMonitor()
+        self.runner.runDisCODe()
         time.sleep(.500)
+        self.runner.process.kill()
 
         output = self.runner.readOutput()
         # print(output)
         assert_that(output, contains_string("Kopiowanie TASKA!"))
 
-    # def test_if_discode_is_killed_manually(self):
-    #     self.runner.setTask("CvBasic:SequenceViewer")
-    #     self.runner.run()
-    #     time.sleep(.500)
-    #
-    #     self.runner.kill()
-    #
-    #     output = self.runner.readOutput()
-    #     assert_that(output, contains_string("Finishing DisCODe."))
-    #     assert_that(output, contains_string("Server stopped."))
+    def test_if_discode_is_killed_manually(self):
+        self.runner.taskName = "CvBasic:SequenceViewer"
+        # self.runner.run()
+        # self.runner.runMonitor()
+        self.runner.runDisCODe()
+        time.sleep(1)
+
+        self.runner.kill()
+
+        output = self.runner.readOutput()
+        print(output)
+        assert_that(output, contains_string("Finishing DisCODe."))
+        assert_that(output, contains_string("Server stoped."))
 
     # def test_if_discode_is_killed(self):
     #     self.runner.setTask("CvBasic:SequenceViewer")

@@ -1,6 +1,8 @@
 import subprocess
 from threading import Thread, Condition
 
+import signal
+
 output = []
 condition = Condition()
 log = ""
@@ -10,6 +12,8 @@ class DisCODeProcess(Thread):
     def __init__(self, taskName):
         super().__init__()
         self.taskName = taskName
+        self.killSignal = False
+        self.process = None
 
     def run(self):
         global output
@@ -18,10 +22,12 @@ class DisCODeProcess(Thread):
         if self.taskName != '':
             command = ['discode', '-T' + self.taskName]
         # print(command)
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                    universal_newlines=True)
         while True:
-            line = process.stdout.readline()
+            if self.killSignal:
+                self.process.send_signal(signal.SIGINT)
+            line = self.process.stdout.readline()
             condition.acquire()
             output.append(line)
             condition.notify()
@@ -31,7 +37,7 @@ class DisCODeProcess(Thread):
             if line == '' or 'Server stopped.' in line:
                 break
 
-        process.kill()
+        self.process.send_signal(signal.SIGINT)
         # print("discode ended")
 
 
@@ -69,11 +75,12 @@ class DisCODeRunner:
         self.killSignal = False
         self.output = ''
         self.log = ''
+        self.discodeProcess = None
 
     def run(self):
-        self.process = DisCODeProcess(self.taskName)
-        self.process.daemon = True
-        self.process.start()
+        self.discodeProcess = DisCODeProcess(self.taskName)
+        self.discodeProcess.daemon = True
+        self.discodeProcess.start()
 
     def runMonitor(self):
         self.monitor = OutputMonitor()
@@ -81,20 +88,28 @@ class DisCODeRunner:
         self.monitor.start()
 
     def readOutput(self):
-        global log
+        # global log
+        lines = self.process.stdout.readlines()
+        log = ''.join(lines)
         return log
 
     def runDisCODe(self):
         command = ['discode']
         if self.taskName != '':
             command = ['discode', '-T' + self.taskName]
-        print(command)
+        # print(command)
         self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                         universal_newlines=True)
+
+    def kill(self):
+        self.process.send_signal(signal.SIGINT)
+        # self.discodeProcess.killSignal = True
 
 
 if __name__ == '__main__':
     runner = DisCODeRunner()
-    runner.run()
-    runner.readOutput()
+    runner.runDisCODe()
+    # runner.run()
+    # runner.readOutput()
     # print(runner.run())
+    print(runner.readOutput())
