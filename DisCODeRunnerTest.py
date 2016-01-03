@@ -24,6 +24,11 @@ class TestDisCODeRunner(unittest.TestCase):
 
         assert_that(discodeExists, equal_to(True))
 
+    def test_if_dcl_dir_exists(self):
+        import os
+        discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
+        assert_that(discode_dcl_dir, is_not(empty))
+
     def test_if_discode_runs(self):
         self.runner.run()
         self.runner.runMonitor()
@@ -40,11 +45,6 @@ class TestDisCODeRunner(unittest.TestCase):
         output = self.runner.readOutput()
         assert_that(output, contains_string("ERROR"))
         assert_that(output, contains_string("No task specified!"))
-
-    def test_if_dcl_dir_exists(self):
-        import os
-        discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
-        assert_that(discode_dcl_dir, is_not(empty))
 
     def test_if_discode_runs_with_task(self):
         self.runner.taskName = "CvBasic:SequenceViewer"

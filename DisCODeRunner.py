@@ -13,7 +13,7 @@ class DisCODeProcess(Thread):
 
     def run(self):
         global output
-        # print("discode starting")
+        print("discode starting")
         command = ["discode"]
         if self.taskName != "":
             command = ["discode", "-T" + self.taskName]
@@ -32,7 +32,7 @@ class DisCODeProcess(Thread):
                 break
 
         process.kill()
-        # print("discode ended")
+        print("discode ended")
 
 
 class OutputMonitor(Thread):
@@ -42,7 +42,8 @@ class OutputMonitor(Thread):
     def run(self):
         global output
         global log
-        # print("Monitor started")
+        print("Monitor started")
+        log = ''
         while True:
             condition.acquire()
             if not output:
@@ -53,6 +54,10 @@ class OutputMonitor(Thread):
             # print(log)
             # print("Monitor: ", line)
             condition.release()
+            if line == "":
+                break
+
+        print("Monitor ended")
 
 
 class DisCODeRunner:
@@ -64,10 +69,9 @@ class DisCODeRunner:
         self.killSignal = False
         self.output = ""
         self.log = ""
-        global log
-        log = ""
 
     def run(self):
+        # discodeThread = Thread(target=runDiscode, )
         self.process = DisCODeProcess(self.taskName)
         self.process.daemon = True
         self.process.start()
@@ -80,6 +84,14 @@ class DisCODeRunner:
     def readOutput(self):
         global log
         return log
+
+    def runDisCODe(self):
+        command = ["discode"]
+        if self.taskName != "":
+            command = ["discode", "-T" + self.taskName]
+        print(command)
+        self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                        universal_newlines=True)
 
 
 if __name__ == '__main__':
