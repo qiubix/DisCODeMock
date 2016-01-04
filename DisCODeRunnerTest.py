@@ -33,7 +33,6 @@ class TestDisCODeRunner(unittest.TestCase):
         # self.runner.run()
         # self.runner.runMonitor()
         self.runner.runDisCODe()
-        # time.sleep(.500)
 
         output = self.runner.readOutput()
         assert_that(output, contains_string("\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n"))
@@ -42,7 +41,6 @@ class TestDisCODeRunner(unittest.TestCase):
         # self.runner.run()
         # self.runner.runMonitor()
         self.runner.runDisCODe()
-        # time.sleep(.500)
 
         output = self.runner.readOutput()
         assert_that(output, contains_string("ERROR"))
@@ -57,7 +55,6 @@ class TestDisCODeRunner(unittest.TestCase):
         self.runner.process.kill()
 
         output = self.runner.readOutput()
-        # print(output)
         assert_that(output, contains_string("Kopiowanie TASKA!"))
 
     def test_if_discode_is_killed_manually(self):
@@ -70,7 +67,6 @@ class TestDisCODeRunner(unittest.TestCase):
         self.runner.kill()
 
         output = self.runner.readOutput()
-        # print(output)
         assert_that(output, contains_string("Finishing DisCODe."))
         assert_that(output, contains_string("Server stoped."))
 
