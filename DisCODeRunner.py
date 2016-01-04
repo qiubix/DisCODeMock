@@ -15,7 +15,7 @@ class DisCODeRunner:
         self.log = ''
         self.discodeProcess = None
 
-    def run(self):
+    def runDisCODe(self):
         self.discodeProcess = DisCODeProcess(self.taskName)
         self.discodeProcess.daemon = True
         self.discodeProcess.start()
@@ -30,7 +30,7 @@ class DisCODeRunner:
         log = ''.join(lines)
         return log
 
-    def runDisCODe(self):
+    def start(self):
         command = ['discode']
         if self.taskName != '':
             command = ['discode', '-T' + self.taskName]
@@ -51,5 +51,5 @@ class DisCODeRunner:
 
 if __name__ == '__main__':
     runner = DisCODeRunner()
-    runner.runDisCODe()
+    runner.start()
     print(runner.readOutput())
