@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.4"
+  - "2.7"
 branches:
   only:
     - master
@@ -26,4 +26,4 @@ before_script:
   - export DISCODE_DCL_DIR=/home/travis/src/DCL/
   - ./install_discode.sh
   - cd ~/build/qiubix/DisCODeRunner
-script: python DisCODeRunnerTest.py
+script: python3 DisCODeRunnerTest.py
