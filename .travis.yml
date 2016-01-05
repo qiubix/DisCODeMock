@@ -12,6 +12,8 @@ addons:
     packages:
       - libboost1.55-all-dev
       - libopencv-dev
+      - libeigen3-dev
+      - libflann-dev
 #       - libatlas-base-dev
 #       - gfortran
 #       - python-scipy
