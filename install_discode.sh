@@ -17,7 +17,7 @@ if [ ! -d ~/src/DCL/CvCoreTypes ]; then
 fi
 
 if [ ! -d ~/src/DCL/CvBasic ]; then
-  git clone https://github.com/DisCODe/DCL_CvBasic ~/src/DCL/CvBasic
+  git clone https://github.com/maciek-slon/DCL_CvBasic ~/src/DCL/CvBasic
   cd ~/src/DCL/CvBasic && mkdir build && cd build
   cmake .. -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=true && make Sequence CvSIFT -j3 && make install/fast
 fi
