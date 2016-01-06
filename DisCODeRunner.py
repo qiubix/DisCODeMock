@@ -44,6 +44,8 @@ class DisCODeRunner:
                 if self.terminationStatement in line:
                     self.process.send_signal(signal.SIGINT)
                     break
+                if line == '':
+                    break
 
     def kill(self):
         self.process.send_signal(signal.SIGINT)
