@@ -53,13 +53,13 @@ class TestDisCODeRunner(unittest.TestCase):
 
     def test_if_discode_is_killed_manually(self):
         self.runner.taskName = 'SequenceViewer.xml'
+        self.runner.logLevel = '0'
         self.runner.start()
-        time.sleep(1)
+        time.sleep(8)
 
         self.runner.kill()
 
         output = self.runner.readOutput()
-        print(output)
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
@@ -70,7 +70,6 @@ class TestDisCODeRunner(unittest.TestCase):
         self.runner.start()
 
         output = self.runner.readOutput()
-        print(output)
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 

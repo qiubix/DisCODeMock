@@ -13,6 +13,7 @@ class DisCODeRunner:
         self.killSignal = False
         self.output = ''
         self.log = ''
+        self.logLevel = ''
         self.discodeProcess = None
 
     def runDisCODe(self):
@@ -34,6 +35,8 @@ class DisCODeRunner:
         command = ['discode']
         if self.taskName != '':
             command = ['discode', '-T' + self.taskName]
+        if self.logLevel != '':
+            command.append('-L' + self.logLevel)
         # print(command)
         self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                         universal_newlines=True)
@@ -41,13 +44,11 @@ class DisCODeRunner:
         if self.terminationStatement != '':
             while True:
                 line = self.process.stdout.readline()
-                print(line)
                 if self.terminationStatement in line:
                     self.process.send_signal(signal.SIGINT)
                     break
 
     def kill(self):
-        print('sending kill signal...')
         self.process.send_signal(signal.SIGINT)
 
 
