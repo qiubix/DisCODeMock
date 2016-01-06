@@ -41,13 +41,13 @@ class DisCODeRunner:
         if self.terminationStatement != '':
             while True:
                 line = self.process.stdout.readline()
+                print(line)
                 if self.terminationStatement in line:
                     self.process.send_signal(signal.SIGINT)
                     break
-                if line == '':
-                    break
 
     def kill(self):
+        print('sending kill signal...')
         self.process.send_signal(signal.SIGINT)
 
 

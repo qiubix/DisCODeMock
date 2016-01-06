@@ -54,11 +54,12 @@ class TestDisCODeRunner(unittest.TestCase):
     def test_if_discode_is_killed_manually(self):
         self.runner.taskName = 'CvBasic:SequenceViewer'
         self.runner.start()
-        time.sleep(3)
+        time.sleep(1)
 
         self.runner.kill()
 
         output = self.runner.readOutput()
+        print(output)
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
@@ -69,6 +70,7 @@ class TestDisCODeRunner(unittest.TestCase):
         self.runner.start()
 
         output = self.runner.readOutput()
+        print(output)
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
