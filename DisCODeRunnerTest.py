@@ -54,7 +54,7 @@ class TestDisCODeRunner(unittest.TestCase):
     def test_if_discode_is_killed_manually(self):
         self.runner.taskName = 'CvBasic:SequenceViewer'
         self.runner.start()
-        time.sleep(1)
+        time.sleep(3)
 
         self.runner.kill()
 
