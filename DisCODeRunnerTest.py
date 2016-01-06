@@ -52,7 +52,7 @@ class TestDisCODeRunner(unittest.TestCase):
         assert_that(output, contains_string('Kopiowanie TASKA!'))
 
     def test_if_discode_is_killed_manually(self):
-        self.runner.taskName = 'CvBasic:SequenceViewer'
+        self.runner.taskName = 'SequenceViewer.xml'
         self.runner.start()
         time.sleep(1)
 
@@ -64,7 +64,7 @@ class TestDisCODeRunner(unittest.TestCase):
         assert_that(output, contains_string('Server stoped.'))
 
     def test_if_discode_is_killed_on_termination_statement(self):
-        self.runner.taskName = 'CvBasic:SequenceViewer'
+        self.runner.taskName = 'SequenceViewer.xml'
         self.runner.terminationStatement = 'ERROR'
 
         self.runner.start()
