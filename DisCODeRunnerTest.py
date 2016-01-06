@@ -55,7 +55,7 @@ class TestDisCODeRunner(unittest.TestCase):
         self.runner.taskName = 'SequenceViewer.xml'
         self.runner.logLevel = '0'
         self.runner.start()
-        time.sleep(8)
+        time.sleep(5)
 
         self.runner.kill()
 

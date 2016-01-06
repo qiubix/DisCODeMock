@@ -32,21 +32,28 @@ class DisCODeRunner:
         return log
 
     def start(self):
-        command = ['discode']
-        if self.taskName != '':
-            command = ['discode', '-T' + self.taskName]
-        if self.logLevel != '':
-            command.append('-L' + self.logLevel)
+        command = self.getCommand()
         # print(command)
         self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                         universal_newlines=True)
 
         if self.terminationStatement != '':
-            while True:
-                line = self.process.stdout.readline()
-                if self.terminationStatement in line:
-                    self.process.send_signal(signal.SIGINT)
-                    break
+            self.killOnTerminationStatement()
+
+    def getCommand(self):
+        command = ['discode']
+        if self.taskName != '':
+            command.append('-T' + self.taskName)
+        if self.logLevel != '':
+            command.append('-L' + self.logLevel)
+        return command
+
+    def killOnTerminationStatement(self):
+        while True:
+            line = self.process.stdout.readline()
+            if self.terminationStatement in line:
+                self.process.send_signal(signal.SIGINT)
+                break
 
     def kill(self):
         self.process.send_signal(signal.SIGINT)
