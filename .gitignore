@@ -62,3 +62,6 @@ target/
 
 # IDE
 .idea/
+
+# directory for test tasks
+test_tasks/
