@@ -18,8 +18,9 @@ class TaskBuilderTest(unittest.TestCase):
 
         self.builder.writeToFile(sample_string)
 
-        file = open(file_name)
-        assert_that(file.read(), sample_string)
+        with open(file_name) as file:
+            contents = file.read()
+        assert_that(contents, sample_string)
 
     def test_should_save_task_to_default_file(self):
         taskBody = 'Task body'
@@ -27,14 +28,24 @@ class TaskBuilderTest(unittest.TestCase):
 
         self.builder.save()
 
-        file = open(self.defaultFileName)
-        assert_that(file.read(), taskBody)
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, equal_to(taskBody))
 
     def test_should_have_task_tag_on_top_level(self):
         self.builder.save()
 
-        file = open(self.defaultFileName)
-        assert_that(file.read(), '<Task></Task>')
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, starts_with('<Task>'))
+        assert_that(contents, ends_with('</Task>'))
+
+    def test_should_have_subtasks_and_datastreams_tags(self):
+        self.builder.save()
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, equal_to('<Task>\n<Subtasks>\n</Subtasks>\n<Datasets>\n</Datasets>\n</Task>'))
 
 
 if __name__ == '__main__':

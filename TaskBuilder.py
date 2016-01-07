@@ -1,7 +1,7 @@
 class TaskBuilder:
     def __init__(self):
         self.fileName = ''
-        self.taskBody = '<Task></Task>'
+        self.taskBody = '<Task>\n<Subtasks>\n</Subtasks>\n<Datasets>\n</Datasets>\n</Task>'
 
     def writeToFile(self, string):
         file = open(self.fileName, 'w')
