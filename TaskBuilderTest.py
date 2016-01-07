@@ -1,4 +1,5 @@
 import unittest
+import xml.dom.minidom
 from hamcrest import *
 from subprocess import call
 
@@ -33,19 +34,27 @@ class TaskBuilderTest(unittest.TestCase):
         assert_that(contents, equal_to(taskBody))
 
     def test_should_have_task_tag_on_top_level(self):
-        self.builder.save()
+        self.builder.createTemplate()
 
-        with open(self.defaultFileName) as file:
-            contents = file.read()
+        contents = self.builder.taskBody
         assert_that(contents, starts_with('<Task>'))
         assert_that(contents, ends_with('</Task>'))
 
-    def test_should_have_subtasks_and_datastreams_tags(self):
-        self.builder.save()
+    def test_should_have_subtasks_and_datastreams_elements(self):
+        self.builder.createTemplate()
 
-        with open(self.defaultFileName) as file:
-            contents = file.read()
-        assert_that(contents, equal_to('<Task>\n<Subtasks>\n</Subtasks>\n<Datasets>\n</Datasets>\n</Task>'))
+        contents = xml.dom.minidom.parseString(self.builder.taskBody)
+        subtasksElements = contents.getElementsByTagName('Subtasks')
+        datasetsElements = contents.getElementsByTagName('Datasets')
+        assert_that(subtasksElements.length, equal_to(1))
+        assert_that(datasetsElements.length, equal_to(1))
+
+    @unittest.skip('wip')
+    def test_should_have_main_subtask_element(self):
+        self.builder.createTemplate()
+
+        contents = self.builder.taskBody
+        assert_that(contents, contains_string('<Subtask name="Main">\n</Subtask>'))
 
 
 if __name__ == '__main__':
