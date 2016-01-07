@@ -1,7 +1,7 @@
 class TaskBuilder:
     def __init__(self):
         self.fileName = ''
-        self.taskBody = ''
+        self.taskBody = '<Task></Task>'
 
     def writeToFile(self, string):
         file = open(self.fileName, 'w')

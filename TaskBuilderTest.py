@@ -30,6 +30,12 @@ class TaskBuilderTest(unittest.TestCase):
         file = open(self.defaultFileName)
         assert_that(file.read(), taskBody)
 
+    def test_should_have_task_tag_on_top_level(self):
+        self.builder.save()
+
+        file = open(self.defaultFileName)
+        assert_that(file.read(), '<Task></Task>')
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
