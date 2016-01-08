@@ -38,23 +38,22 @@ class TaskBuilderTest(unittest.TestCase):
 
         contents = self.builder.taskBody
         assert_that(contents, starts_with('<Task>'))
-        assert_that(contents, ends_with('</Task>'))
+        assert_that(contents, ends_with('</Task>\n'))
 
     def test_should_have_subtasks_and_datastreams_elements(self):
         self.builder.createTemplate()
 
         contents = xml.dom.minidom.parseString(self.builder.taskBody)
         subtasksElements = contents.getElementsByTagName('Subtasks')
-        datasetsElements = contents.getElementsByTagName('Datasets')
+        datasetsElements = contents.getElementsByTagName('DataStreams')
         assert_that(subtasksElements.length, equal_to(1))
         assert_that(datasetsElements.length, equal_to(1))
 
-    @unittest.skip('wip')
     def test_should_have_main_subtask_element(self):
         self.builder.createTemplate()
 
         contents = self.builder.taskBody
-        assert_that(contents, contains_string('<Subtask name="Main">\n</Subtask>'))
+        assert_that(contents, contains_string('<Subtask name="Main"/>'))
 
 
 if __name__ == '__main__':

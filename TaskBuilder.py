@@ -1,3 +1,6 @@
+from xml.dom.minidom import getDOMImplementation
+
+
 class TaskBuilder:
     def __init__(self):
         self.fileName = ''
@@ -16,4 +19,18 @@ class TaskBuilder:
         file.write(self.taskBody)
 
     def createTemplate(self):
-        self.taskBody = '<Task>\n<Subtasks>\n</Subtasks>\n<Datasets>\n</Datasets>\n</Task>'
+        DOMimpl = getDOMImplementation()
+        document = DOMimpl.createDocument(None, 'Task', None)
+        topLevelElement = document.documentElement
+
+        subtasksElement = document.createElement('Subtasks')
+        topLevelElement.appendChild(subtasksElement)
+        mainSubtaskElement = document.createElement('Subtask')
+        mainSubtaskElement.setAttribute('name', 'Main')
+        subtasksElement.appendChild(mainSubtaskElement)
+
+        datastreamsElement = document.createElement('DataStreams')
+        topLevelElement.appendChild(datastreamsElement)
+
+        self.taskBody = document.firstChild.toprettyxml()
+        # self.taskBody = '<Task>\n<Subtasks>\n</Subtasks>\n<Datasets>\n</Datasets>\n</Task>'
