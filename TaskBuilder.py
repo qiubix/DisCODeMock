@@ -17,7 +17,7 @@ class TaskBuilder:
         else:
             fileName = self.fileName
         file = open(fileName, 'w')
-        file.write(self.taskBody)
+        file.write(self.getTaskBody())
 
     def createTemplate(self):
         self.document = self.createEmptyDocument()
@@ -25,8 +25,6 @@ class TaskBuilder:
         subtasksElement = self.addSubtasksElement(topLevelElement)
         self.addDataStreams(topLevelElement)
         self.addMainSubtask(subtasksElement)
-
-        self.taskBody = self.document.firstChild.toprettyxml()
 
     def getTopLevelElement(self):
         topLevelElement = self.document.documentElement
@@ -57,4 +55,8 @@ class TaskBuilder:
         executor.setAttribute('period', str(period))
         mainSubtask = self.document.getElementsByTagName('Subtask').item(0)
         mainSubtask.appendChild(executor)
-        self.taskBody = self.document.firstChild.toprettyxml()
+
+    def getTaskBody(self):
+        if self.document is not None:
+            self.taskBody = self.document.firstChild.toprettyxml()
+        return self.taskBody

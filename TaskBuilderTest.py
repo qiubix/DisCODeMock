@@ -36,14 +36,14 @@ class TaskBuilderTest(unittest.TestCase):
     def test_should_have_task_tag_on_top_level(self):
         self.builder.createTemplate()
 
-        contents = self.builder.taskBody
+        contents = self.builder.getTaskBody()
         assert_that(contents, starts_with('<Task>'))
         assert_that(contents, ends_with('</Task>\n'))
 
     def test_should_have_subtasks_and_datastreams_elements(self):
         self.builder.createTemplate()
 
-        contents = xml.dom.minidom.parseString(self.builder.taskBody)
+        contents = xml.dom.minidom.parseString(self.builder.getTaskBody())
         subtasksElements = contents.getElementsByTagName('Subtasks')
         datasetsElements = contents.getElementsByTagName('DataStreams')
         assert_that(subtasksElements.length, equal_to(1))
@@ -52,7 +52,7 @@ class TaskBuilderTest(unittest.TestCase):
     def test_should_have_main_subtask_element(self):
         self.builder.createTemplate()
 
-        contents = self.builder.taskBody
+        contents = self.builder.getTaskBody()
         assert_that(contents, contains_string('<Subtask name="Main"/>'))
 
     def test_should_create_executor(self):
@@ -61,7 +61,7 @@ class TaskBuilderTest(unittest.TestCase):
         executorPeriod = 1
         self.builder.addExecutor(executorName, executorPeriod)
 
-        contents = self.builder.taskBody
+        contents = self.builder.getTaskBody()
         assert_that(contents, contains_string('<Executor name="' + executorName + '" period="' + str(executorPeriod) + '"/>'))
 
 
