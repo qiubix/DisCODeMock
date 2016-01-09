@@ -56,6 +56,9 @@ class TaskBuilder:
         mainSubtask = self.document.getElementsByTagName('Subtask').item(0)
         mainSubtask.appendChild(executor)
 
+    def addDefaultExecutor(self):
+        self.addExecutor('Processing', 1)
+
     def getTaskBody(self):
         if self.document is not None:
             self.taskBody = self.document.firstChild.toprettyxml()

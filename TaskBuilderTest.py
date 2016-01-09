@@ -57,12 +57,19 @@ class TaskBuilderTest(unittest.TestCase):
 
     def test_should_create_executor(self):
         self.builder.createTemplate()
-        executorName = 'Processing'
-        executorPeriod = 1
+        executorName = 'Custom executor'
+        executorPeriod = 2
         self.builder.addExecutor(executorName, executorPeriod)
 
         contents = self.builder.getTaskBody()
         assert_that(contents, contains_string('<Executor name="' + executorName + '" period="' + str(executorPeriod) + '"/>'))
+
+    def test_should_create_default_executor(self):
+        self.builder.createTemplate()
+        self.builder.addDefaultExecutor()
+
+        contents = self.builder.getTaskBody()
+        assert_that(contents, contains_string('<Executor name="Processing" period="1"/>'))
 
 
 if __name__ == '__main__':
