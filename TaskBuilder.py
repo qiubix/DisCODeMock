@@ -5,6 +5,7 @@ class TaskBuilder:
     def __init__(self):
         self.fileName = ''
         self.taskBody = ''
+        self.document = None
 
     def writeToFile(self, string):
         file = open(self.fileName, 'w')
@@ -19,16 +20,16 @@ class TaskBuilder:
         file.write(self.taskBody)
 
     def createTemplate(self):
-        document = self.createEmptyDocument()
-        topLevelElement = self.getTopLevelElement(document)
-        subtasksElement = self.addSubtasksElement(document, topLevelElement)
-        self.addDataStreams(document, topLevelElement)
-        self.addMainSubtask(document, subtasksElement)
+        self.document = self.createEmptyDocument()
+        topLevelElement = self.getTopLevelElement()
+        subtasksElement = self.addSubtasksElement(topLevelElement)
+        self.addDataStreams(topLevelElement)
+        self.addMainSubtask(subtasksElement)
 
-        self.taskBody = document.firstChild.toprettyxml()
+        self.taskBody = self.document.firstChild.toprettyxml()
 
-    def getTopLevelElement(self, document):
-        topLevelElement = document.documentElement
+    def getTopLevelElement(self):
+        topLevelElement = self.document.documentElement
         return topLevelElement
 
     def createEmptyDocument(self):
@@ -36,16 +37,24 @@ class TaskBuilder:
         document = DOMimpl.createDocument(None, 'Task', None)
         return document
 
-    def addDataStreams(self, document, topLevelElement):
-        datastreamsElement = document.createElement('DataStreams')
+    def addDataStreams(self, topLevelElement):
+        datastreamsElement = self.document.createElement('DataStreams')
         topLevelElement.appendChild(datastreamsElement)
 
-    def addMainSubtask(self, document, subtasksElement):
-        mainSubtaskElement = document.createElement('Subtask')
+    def addMainSubtask(self, subtasksElement):
+        mainSubtaskElement = self.document.createElement('Subtask')
         mainSubtaskElement.setAttribute('name', 'Main')
         subtasksElement.appendChild(mainSubtaskElement)
 
-    def addSubtasksElement(self, document, topLevelElement):
-        subtasksElement = document.createElement('Subtasks')
+    def addSubtasksElement(self, topLevelElement):
+        subtasksElement = self.document.createElement('Subtasks')
         topLevelElement.appendChild(subtasksElement)
         return subtasksElement
+
+    def addExecutor(self, name, period):
+        executor = self.document.createElement('Executor')
+        executor.setAttribute('name', name)
+        executor.setAttribute('period', str(period))
+        mainSubtask = self.document.getElementsByTagName('Subtask').item(0)
+        mainSubtask.appendChild(executor)
+        self.taskBody = self.document.firstChild.toprettyxml()

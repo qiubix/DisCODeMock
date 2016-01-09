@@ -55,6 +55,15 @@ class TaskBuilderTest(unittest.TestCase):
         contents = self.builder.taskBody
         assert_that(contents, contains_string('<Subtask name="Main"/>'))
 
+    def test_should_create_executor(self):
+        self.builder.createTemplate()
+        executorName = 'Processing'
+        executorPeriod = 1
+        self.builder.addExecutor(executorName, executorPeriod)
+
+        contents = self.builder.taskBody
+        assert_that(contents, contains_string('<Executor name="' + executorName + '" period="' + str(executorPeriod) + '"/>'))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
