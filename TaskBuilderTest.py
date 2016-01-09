@@ -62,7 +62,8 @@ class TaskBuilderTest(unittest.TestCase):
         self.builder.addExecutor(executorName, executorPeriod)
 
         contents = self.builder.getTaskBody()
-        assert_that(contents, contains_string('<Executor name="' + executorName + '" period="' + str(executorPeriod) + '"/>'))
+        assert_that(contents,
+                    contains_string('<Executor name="' + executorName + '" period="' + str(executorPeriod) + '"/>'))
 
     def test_should_create_default_executor(self):
         self.builder.createTemplate()
@@ -70,6 +71,32 @@ class TaskBuilderTest(unittest.TestCase):
 
         contents = self.builder.getTaskBody()
         assert_that(contents, contains_string('<Executor name="Processing" period="1"/>'))
+
+    def test_should_add_component_to_default_executor(self):
+        self.builder.createTemplate()
+        self.builder.addDefaultExecutor()
+        name = 'Sequence'
+        type = 'CvBasic:Sequence'
+        priority = 1
+        bump = 0
+        self.builder.addComponent(name, type, priority, bump)
+
+        contents = self.builder.getTaskBody()
+        dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
+        components = dom.getElementsByTagName('Component')
+        assert_that(components.length, equal_to(1))
+        component = components.item(0)
+        assert_that(component.getAttribute('name'), equal_to(name))
+        assert_that(component.getAttribute('type'), equal_to(type))
+        assert_that(component.getAttribute('priority'), equal_to(str(priority)))
+        assert_that(component.getAttribute('bump'), equal_to(str(bump)))
+        assert_that(contents,
+                    contains_string('<Component'
+                                    ' bump="' + str(bump) + '"'
+                                    ' name="' + name + '"'
+                                    ' priority="' + str(priority) + '"'
+                                    ' type="' + type + '"'
+                                                       '/>'))
 
 
 if __name__ == '__main__':

@@ -63,3 +63,12 @@ class TaskBuilder:
         if self.document is not None:
             self.taskBody = self.document.firstChild.toprettyxml()
         return self.taskBody
+
+    def addComponent(self, name, type, priority, bump):
+        component = self.document.createElement('Component')
+        component.setAttribute('name', name)
+        component.setAttribute('type', type)
+        component.setAttribute('priority', str(priority))
+        component.setAttribute('bump', str(bump))
+        executor = self.document.getElementsByTagName('Executor').item(0)
+        executor.appendChild(component)
