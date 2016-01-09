@@ -76,10 +76,10 @@ class TaskBuilderTest(unittest.TestCase):
         self.builder.createTemplate()
         self.builder.addDefaultExecutor()
         name = 'Sequence'
-        type = 'CvBasic:Sequence'
+        componentType = 'CvBasic:Sequence'
         priority = 1
         bump = 0
-        self.builder.addComponent(name, type, priority, bump)
+        self.builder.addComponent(name, componentType, priority, bump)
 
         contents = self.builder.getTaskBody()
         dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
@@ -87,7 +87,7 @@ class TaskBuilderTest(unittest.TestCase):
         assert_that(components.length, equal_to(1))
         component = components.item(0)
         assert_that(component.getAttribute('name'), equal_to(name))
-        assert_that(component.getAttribute('type'), equal_to(type))
+        assert_that(component.getAttribute('type'), equal_to(componentType))
         assert_that(component.getAttribute('priority'), equal_to(str(priority)))
         assert_that(component.getAttribute('bump'), equal_to(str(bump)))
         assert_that(contents,
@@ -95,9 +95,22 @@ class TaskBuilderTest(unittest.TestCase):
                                     ' bump="' + str(bump) + '"'
                                     ' name="' + name + '"'
                                     ' priority="' + str(priority) + '"'
-                                    ' type="' + type + '"'
+                                    ' type="' + componentType + '"'
                                                        '/>'))
 
+    def test_should_add_component_with_default_attribute_values(self):
+        self.builder.createTemplate()
+        self.builder.addDefaultExecutor()
+        name = 'Sequence'
+        componentType = 'CvBasic:Sequence'
+        self.builder.addComponent(name, componentType)
+
+        dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
+        component = dom.getElementsByTagName('Component').item(0)
+        assert_that(component.getAttribute('name'), equal_to(name))
+        assert_that(component.getAttribute('type'), equal_to(componentType))
+        assert_that(component.getAttribute('priority'), equal_to('1'))
+        assert_that(component.getAttribute('bump'), equal_to('0'))
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

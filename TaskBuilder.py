@@ -64,10 +64,10 @@ class TaskBuilder:
             self.taskBody = self.document.firstChild.toprettyxml()
         return self.taskBody
 
-    def addComponent(self, name, type, priority, bump):
+    def addComponent(self, name, componentType, priority=1, bump=0):
         component = self.document.createElement('Component')
         component.setAttribute('name', name)
-        component.setAttribute('type', type)
+        component.setAttribute('type', componentType)
         component.setAttribute('priority', str(priority))
         component.setAttribute('bump', str(bump))
         executor = self.document.getElementsByTagName('Executor').item(0)
