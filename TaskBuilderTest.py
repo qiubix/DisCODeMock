@@ -146,6 +146,25 @@ class TaskBuilderTest(unittest.TestCase):
         else:
             assert_that(True, equal_to(False))
 
+    def test_should_add_params_to_component(self):
+        self.builder.createTemplate()
+        self.builder.addDefaultExecutor()
+        self.builder.addComponent('First', 'CvBasic:Sequence')
+        self.builder.addComponent('Second', 'CvBasic:SIFT')
+
+        self.builder.addParamToComponent('Second', 'sequence.directory', '/some/directory')
+        self.builder.addParamToComponent('Second', 'sequence.pattern', '.*\.jpg')
+
+        dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
+        component = dom.getElementsByTagName('Component').item(1)
+        assert_that(component.childNodes.length, equal_to(5))
+        firstParam = component.childNodes.item(1)
+        assert_that(firstParam.getAttribute('name'), equal_to('sequence.directory'))
+        assert_that(firstParam.firstChild.data, equal_to('/some/directory'))
+        secondParam = component.childNodes.item(3)
+        assert_that(secondParam.getAttribute('name'), equal_to('sequence.pattern'))
+        assert_that(secondParam.firstChild.data, equal_to('.*\.jpg'))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

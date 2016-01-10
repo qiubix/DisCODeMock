@@ -83,3 +83,13 @@ class TaskBuilder:
         for executor in executors:
             if executor.getAttribute('name') is executorName:
                 executor.appendChild(component)
+
+    def addParamToComponent(self, componentName, paramName, paramValue):
+        components = self.document.getElementsByTagName('Component')
+        for component in components:
+            if component.getAttribute('name') == componentName:
+                param = self.document.createElement('param')
+                param.setAttribute('name', paramName)
+                text = self.document.createTextNode(paramValue)
+                param.appendChild(text)
+                component.appendChild(param)
