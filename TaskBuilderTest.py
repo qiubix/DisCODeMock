@@ -152,18 +152,26 @@ class TaskBuilderTest(unittest.TestCase):
         self.builder.addComponent('First', 'CvBasic:Sequence')
         self.builder.addComponent('Second', 'CvBasic:SIFT')
 
-        self.builder.addParamToComponent('Second', 'sequence.directory', '/some/directory')
-        self.builder.addParamToComponent('Second', 'sequence.pattern', '.*\.jpg')
+        secondParamValue = '.*\.jpg'
+        firstParamValue = '/some/directory'
+        secondParamName = 'sequence.pattern'
+        firstParamName = 'sequence.directory'
+        self.builder.addParamToComponent('Second', firstParamName, firstParamValue)
+        self.builder.addParamToComponent('Second', secondParamName, secondParamValue)
 
         dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
         component = dom.getElementsByTagName('Component').item(1)
         assert_that(component.childNodes.length, equal_to(5))
         firstParam = component.childNodes.item(1)
-        assert_that(firstParam.getAttribute('name'), equal_to('sequence.directory'))
-        assert_that(firstParam.firstChild.data, equal_to('/some/directory'))
+        assert_that(firstParam.getAttribute('name'), equal_to(firstParamName))
+        assert_that(firstParam.firstChild.data, equal_to(firstParamValue))
         secondParam = component.childNodes.item(3)
-        assert_that(secondParam.getAttribute('name'), equal_to('sequence.pattern'))
-        assert_that(secondParam.firstChild.data, equal_to('.*\.jpg'))
+        assert_that(secondParam.getAttribute('name'), equal_to(secondParamName))
+        assert_that(secondParam.firstChild.data, equal_to(secondParamValue))
+
+    @unittest.skip('refactoring other test')
+    def test_should_add_data_stream(self):
+        self.builder.createTemplate()
 
 
 if __name__ == '__main__':
