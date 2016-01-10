@@ -93,3 +93,13 @@ class TaskBuilder:
                 text = self.document.createTextNode(paramValue)
                 param.appendChild(text)
                 component.appendChild(param)
+
+    def addDataStream(self, sourceName, sinkName):
+        datastream = self.document.createElement('Source')
+        datastream.setAttribute('name', sourceName)
+        sink = self.document.createElement('sink')
+        sinkValue = self.document.createTextNode(sinkName)
+        sink.appendChild(sinkValue)
+        datastream.appendChild(sink)
+        datastreams = self.document.getElementsByTagName('DataStreams').item(0)
+        datastreams.appendChild(datastream)

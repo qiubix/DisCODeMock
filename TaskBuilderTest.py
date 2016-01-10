@@ -169,9 +169,21 @@ class TaskBuilderTest(unittest.TestCase):
         assert_that(secondParam.getAttribute('name'), equal_to(secondParamName))
         assert_that(secondParam.firstChild.data, equal_to(secondParamValue))
 
-    @unittest.skip('refactoring other test')
     def test_should_add_data_stream(self):
         self.builder.createTemplate()
+
+        sourceName = 'First.out_put'
+        sinkName = 'Second.in_put'
+        self.builder.addDataStream(sourceName, sinkName)
+
+        dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
+        datastreams = dom.getElementsByTagName('Source')
+        assert_that(datastreams.length, equal_to(1))
+        datastream = datastreams.item(0)
+        assert_that(datastream.getAttribute('name'), equal_to(sourceName))
+        sink = datastream.childNodes.item(1)
+        assert_that(sink.nodeName, equal_to('sink'))
+        assert_that(sink.firstChild.data, equal_to(sinkName))
 
 
 if __name__ == '__main__':
