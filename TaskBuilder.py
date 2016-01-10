@@ -8,16 +8,16 @@ class TaskBuilder:
         self.document = None
 
     def writeToFile(self, string):
-        file = open(self.fileName, 'w')
-        file.write(string)
+        with open(self.fileName, 'w') as file:
+            file.write(string)
 
     def save(self):
         if self.fileName == '':
             fileName = 'test_tasks/test_task.xml'
         else:
             fileName = self.fileName
-        file = open(fileName, 'w')
-        file.write(self.getTaskBody())
+        with open(fileName, 'w') as file:
+            file.write(self.getTaskBody())
 
     def createTemplate(self):
         self.document = self.createEmptyDocument()
