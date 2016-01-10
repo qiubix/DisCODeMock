@@ -14,13 +14,9 @@ addons:
       - libopencv-dev
       - libeigen3-dev
       - libflann-dev
-#       - libatlas-base-dev
-#       - gfortran
-#       - python-scipy
 install:
   - pip install -v pyhamcrest
   - pip install -v coveralls
-#   - pip install --upgrade pip
 before_script:
   - export PYTHONPATH='.'
   - export PATH=$PATH:/home/travis/src/DisCODe/build/inst/bin
