@@ -49,7 +49,7 @@ class TaskBuilder:
         topLevelElement.appendChild(subtasksElement)
         return subtasksElement
 
-    def addExecutor(self, name, period):
+    def addExecutor(self, name, period=1):
         executor = self.document.createElement('Executor')
         executor.setAttribute('name', name)
         executor.setAttribute('period', str(period))
