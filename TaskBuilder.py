@@ -72,3 +72,14 @@ class TaskBuilder:
         component.setAttribute('bump', str(bump))
         executor = self.document.getElementsByTagName('Executor').item(0)
         executor.appendChild(component)
+
+    def addComponentToExecutor(self, executorName, componentName, componentType):
+        component = self.document.createElement('Component')
+        component.setAttribute('name', componentName)
+        component.setAttribute('type', componentType)
+        component.setAttribute('priority', '1')
+        component.setAttribute('bump', '0')
+        executors = self.document.getElementsByTagName('Executor')
+        for executor in executors:
+            if executor.getAttribute('name') is executorName:
+                executor.appendChild(component)

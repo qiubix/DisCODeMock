@@ -112,5 +112,31 @@ class TaskBuilderTest(unittest.TestCase):
         assert_that(component.getAttribute('priority'), equal_to('1'))
         assert_that(component.getAttribute('bump'), equal_to('0'))
 
+    def test_should_add_component_to_specific_executor(self):
+        self.builder.createTemplate()
+        self.builder.addDefaultExecutor()
+        executorName = 'Second'
+        self.builder.addExecutor(executorName, 1)
+        componentName = 'Sequence'
+        componentType = 'CvBasic:Sequence'
+        self.builder.addComponentToExecutor(executorName, componentName, componentType)
+
+        dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
+        executors = dom.getElementsByTagName('Executor')
+        executor = None
+        for e in executors:
+            if e.getAttribute('name') == executorName:
+                executor = e
+        if executor is not None:
+            assert_that(executor.childNodes.length, equal_to(3))
+            component = executor.childNodes.item(1)
+            assert_that(component.getAttribute('name'), equal_to(componentName))
+            assert_that(component.getAttribute('type'), equal_to(componentType))
+            assert_that(component.getAttribute('priority'), equal_to('1'))
+            assert_that(component.getAttribute('bump'), equal_to('0'))
+        else:
+            assert_that(True, equal_to(False))
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
