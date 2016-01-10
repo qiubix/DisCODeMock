@@ -27,6 +27,8 @@ before_script:
   - export DISCODE_DCL_DIR=/home/travis/src/DCL/
   - ./install_discode.sh
   - cd ~/build/qiubix/DisCODeRunner
-script: coverage run --source=DisCODeRunner.py DisCODeRunnerTest.py
+script:
+  - coverage run --source=DisCODeRunner.py DisCODeRunnerTest.py
+  - coverage run --source=TaskBuilder.py TaskBuilderTest.py
 after_success:
   - coveralls
