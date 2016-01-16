@@ -8,5 +8,11 @@ class ComponentTester:
     def setComponent(self, componentName, componentType):
         self.taskBuilder.createTemplate()
         self.taskBuilder.addDefaultExecutor()
-        self.taskBuilder.addComponent(componentName,componentType)
+        self.taskBuilder.addComponent(componentName, componentType)
+        self.taskBuilder.save()
+
+    def addGenerator(self, generatorType):
+        self.taskBuilder.createTemplate()
+        self.taskBuilder.addDefaultExecutor()
+        self.taskBuilder.addComponent('Generator', generatorType)
         self.taskBuilder.save()
