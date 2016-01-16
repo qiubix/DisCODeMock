@@ -53,7 +53,15 @@ class TestComponentTester(unittest.TestCase):
 
         with open(self.defaultFileName) as file:
             contents = file.read()
-        assert_that(contents, contains_string('<sink>Summator.in_img</sink>'))
+        assert_that(contents, contains_string('<sink>Summator.in_data</sink>'))
+
+    def test_should_create_default_generator_source_when_adding_component(self):
+        tester = ComponentTester()
+        tester.setComponent('Summator', 'CvBasic:Sum')
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string('<Source name="Generator.out_data">'))
 
     def test_should_add_generator_to_components(self):
         tester = ComponentTester()
