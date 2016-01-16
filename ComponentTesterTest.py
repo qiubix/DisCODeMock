@@ -47,6 +47,14 @@ class TestComponentTester(unittest.TestCase):
             contents = file.read()
         assert_that(contents, contains_string('<Component bump="0" name="Summator" priority="1" type="CvBasic:Sum"/>'))
 
+    def test_should_add_component_with_default_input_name(self):
+        tester = ComponentTester()
+        tester.setComponent('Summator', 'CvBasic:Sum')
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string('<sink>Summator.in_img</sink>'))
+
     def test_should_add_generator_to_components(self):
         tester = ComponentTester()
         tester.addGenerator('SampleGenerators:CvMatGenerator')
@@ -55,6 +63,12 @@ class TestComponentTester(unittest.TestCase):
             contents = file.read()
         assert_that(contents, contains_string(
             '<Component bump="0" name="Generator" priority="1" type="SampleGenerators:CvMatGenerator"/>'))
+
+    @unittest.skip
+    def test_should_define_generator_connection(self):
+        tester = ComponentTester()
+        tester.setComponent('Summator', 'CvBasic:Sum')
+        tester.setGeneratorOutputName('out_matrix')
 
 
 if __name__ == '__main__':
