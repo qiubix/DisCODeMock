@@ -4,6 +4,8 @@ from TaskBuilder import TaskBuilder
 class ComponentTester:
     def __init__(self):
         self.taskBuilder = TaskBuilder()
+        self.taskBuilder.createTemplate()
+        self.taskBuilder.save()
 
     def setComponent(self, componentName, componentType):
         self.taskBuilder.createTemplate()

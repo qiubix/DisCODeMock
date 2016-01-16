@@ -15,6 +15,11 @@ class TestComponentTester(unittest.TestCase):
     def test_component_tester_running(self):
         assert_that(ComponentTester(), is_not(None))
 
+    def test_should_save_task_template_to_default_file_on_init(self):
+        tester = ComponentTester()
+
+        assert_that(isfile(self.defaultFileName), is_(True))
+
     @unittest.skip
     def test_should_create_task_with_default_executor_on_init(self):
         tester = ComponentTester()
