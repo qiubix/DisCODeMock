@@ -5,6 +5,7 @@ class ComponentTester:
     def __init__(self):
         self.taskBuilder = TaskBuilder()
         self.taskBuilder.createTemplate()
+        self.taskBuilder.addDefaultExecutor()
         self.taskBuilder.save()
 
     def setComponent(self, componentName, componentType):

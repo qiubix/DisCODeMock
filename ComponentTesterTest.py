@@ -29,10 +29,9 @@ class TestComponentTester(unittest.TestCase):
         assert_that(contents, ends_with('</Task>\n'))
         assert_that(contents, contains_string('<Subtasks>'))
         assert_that(contents, contains_string('</Subtasks>'))
-        assert_that(contents, contains_string('<Subtask name="Main"/>'))
+        assert_that(contents, contains_string('<Subtask name="Main"'))
         assert_that(contents, contains_string('<DataStreams/>'))
 
-    @unittest.skip
     def test_should_create_task_with_default_executor_on_init(self):
         tester = ComponentTester()
 
