@@ -8,9 +8,9 @@ class ComponentTester:
         self.taskBuilder.addDefaultExecutor()
         self.taskBuilder.save()
 
-    def setComponent(self, componentName, componentType):
+    def setComponent(self, componentName, componentType, componentInput = 'in_data'):
         self.taskBuilder.addComponent(componentName, componentType)
-        self.taskBuilder.addDataStream('Generator.out_data', componentName + '.in_data')
+        self.taskBuilder.addDataStream('Generator.out_data', componentName + '.' + componentInput)
         self.taskBuilder.save()
 
     def addGenerator(self, generatorType):

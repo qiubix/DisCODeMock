@@ -63,6 +63,14 @@ class TestComponentTester(unittest.TestCase):
             contents = file.read()
         assert_that(contents, contains_string('<Source name="Generator.out_data">'))
 
+    def test_should_add_component_with_specific_input_name(self):
+        tester = ComponentTester()
+        tester.setComponent('Summator', 'CvBasic:Sum', 'in_img')
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string('<sink>Summator.in_img</sink>'))
+
     def test_should_add_generator_to_components(self):
         tester = ComponentTester()
         tester.addGenerator('SampleGenerators:CvMatGenerator')
