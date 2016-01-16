@@ -1,4 +1,6 @@
 from hamcrest import *
+from subprocess import call
+from os.path import isfile
 import unittest
 
 from ComponentTester import ComponentTester
@@ -7,11 +9,21 @@ from ComponentTester import ComponentTester
 class TestComponentTester(unittest.TestCase):
     def setUp(self):
         self.defaultFileName = 'test_tasks/test_task.xml'
+        if isfile(self.defaultFileName):
+            call(['rm', self.defaultFileName])
 
     def test_component_tester_running(self):
         assert_that(ComponentTester(), is_not(None))
 
-    def test_adds_proper_component_to_task(self):
+    @unittest.skip
+    def test_should_create_task_with_default_executor_on_init(self):
+        tester = ComponentTester()
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string('<Executor name="Processing" period="1"/>'))
+
+    def test_should_add_proper_component_to_task(self):
         tester = ComponentTester()
         tester.setComponent('Summator', 'CvBasic:Sum')
 
@@ -19,7 +31,7 @@ class TestComponentTester(unittest.TestCase):
             contents = file.read()
         assert_that(contents, contains_string('<Component bump="0" name="Summator" priority="1" type="CvBasic:Sum"/>'))
 
-    def test_adds_generator_to_components(self):
+    def test_should_add_generator_to_components(self):
         tester = ComponentTester()
         tester.addGenerator('SampleGenerators:CvMatGenerator')
 
