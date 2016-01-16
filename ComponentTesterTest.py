@@ -80,11 +80,13 @@ class TestComponentTester(unittest.TestCase):
         assert_that(contents, contains_string(
             '<Component bump="0" name="Generator" priority="1" type="SampleGenerators:CvMatGenerator"/>'))
 
-    @unittest.skip
-    def test_should_define_generator_connection(self):
+    def test_should_add_generator_with_specific_output_name(self):
         tester = ComponentTester()
-        tester.setComponent('Summator', 'CvBasic:Sum')
-        tester.setGeneratorOutputName('out_matrix')
+        tester.addGenerator('SampleGenerators:CvMatGenerator', 'out_img')
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string('<Source name="Generator.out_img">'))
 
 
 if __name__ == '__main__':

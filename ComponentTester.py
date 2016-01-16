@@ -13,8 +13,9 @@ class ComponentTester:
         self.taskBuilder.addDataStream('Generator.out_data', componentName + '.' + componentInput)
         self.taskBuilder.save()
 
-    def addGenerator(self, generatorType):
+    def addGenerator(self, generatorType, generatorOutput = 'out_data'):
         self.taskBuilder.addComponent('Generator', generatorType)
+        self.taskBuilder.addDataStream('Generator.' + generatorOutput, 'Component.in_data')
         self.taskBuilder.save()
 
     def setGeneratorOutputName(self, outputName):
