@@ -185,6 +185,23 @@ class TaskBuilderTest(unittest.TestCase):
         assert_that(sink.nodeName, equal_to('sink'))
         assert_that(sink.firstChild.data, equal_to(sinkName))
 
+    def test_should_update_data_stream(self):
+        self.builder.createTemplate()
+        sourceName = 'First.out_put'
+        sinkName = 'Second.in_put'
+        self.builder.addDataStream(sourceName, sinkName)
+
+        newSourceName = 'out_data'
+        self.builder.updateSource('First', newSourceName)
+        dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
+        datastreams = dom.getElementsByTagName('Source')
+        assert_that(datastreams.length, equal_to(1))
+        datastream = datastreams.item(0)
+        assert_that(datastream.getAttribute('name'), equal_to('First.' + newSourceName))
+        sink = datastream.childNodes.item(1)
+        assert_that(sink.nodeName, equal_to('sink'))
+        assert_that(sink.firstChild.data, equal_to(sinkName))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
