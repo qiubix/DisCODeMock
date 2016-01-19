@@ -65,6 +65,7 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_add_component_with_specific_input_name(self):
         tester = ComponentTester()
+
         tester.setComponent('Summator', 'CvBasic:Sum', 'in_img')
 
         with open(self.defaultFileName) as file:
@@ -73,6 +74,7 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_add_generator_to_components(self):
         tester = ComponentTester()
+
         tester.addGenerator('SampleGenerators:CvMatGenerator')
 
         with open(self.defaultFileName) as file:
@@ -82,6 +84,7 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_add_generator_with_specific_output_name(self):
         tester = ComponentTester()
+
         tester.addGenerator('SampleGenerators:CvMatGenerator', 'out_img')
 
         with open(self.defaultFileName) as file:
@@ -91,6 +94,7 @@ class TestComponentTester(unittest.TestCase):
     def test_should_update_datastream_when_adding_generator_with_other_output_name(self):
         tester = ComponentTester()
         tester.setComponent('Summator', 'CvBasic:Sum')
+
         tester.addGenerator('SampleGenerators:CvMatGenerator', 'out_img')
 
         with open(self.defaultFileName) as file:
@@ -100,11 +104,22 @@ class TestComponentTester(unittest.TestCase):
     def test_should_update_datastream_when_adding_component_after_generator_is_set(self):
         tester = ComponentTester()
         tester.addGenerator('SampleGenerators:CvMatGenerator', 'out_img')
+
         tester.setComponent('Summator', 'CvBasic:Sum', 'in_img')
 
         with open(self.defaultFileName) as file:
             contents = file.read()
         assert_that(contents, contains_string('<Source name="Generator.out_img">\n\t\t\t<sink>Summator.in_img</sink>'))
+
+    def test_should_add_data_sink_with_proper_component_source(self):
+        tester = ComponentTester()
+        tester.setComponent('Summator', 'CvBasic:Sum', 'in_img')
+
+        tester.addSink('SampleGenerators:CvMatSink')
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string('<Source name="Summator.out_data">\n\t\t\t<sink>Sink.in_data</sink>'))
 
 
 if __name__ == '__main__':

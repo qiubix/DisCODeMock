@@ -9,8 +9,10 @@ class ComponentTester:
         self.taskBuilder.save()
         self.componentSinkName = 'Component.in_data'
         self.generatorOutput = 'out_data'
+        self.componentName = 'Component'
 
     def setComponent(self, componentName, componentType, componentInput = 'in_data'):
+        self.componentName = componentName
         self.taskBuilder.addComponent(componentName, componentType)
         if self.taskBuilder.hasSource('Generator.' + self.generatorOutput):
             self.taskBuilder.updateSink('Component', componentName, componentInput)
@@ -27,5 +29,7 @@ class ComponentTester:
             self.taskBuilder.addDataStream('Generator.' + generatorOutput, self.componentSinkName)
         self.taskBuilder.save()
 
-    def setGeneratorOutputName(self, outputName):
-        pass
+    def addSink(self, sinkType):
+        self.taskBuilder.addComponent('Sink', sinkType)
+        self.taskBuilder.addDataStream(self.componentName + '.out_data', 'Sink.in_data')
+        self.taskBuilder.save()
