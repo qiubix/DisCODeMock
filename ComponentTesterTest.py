@@ -131,6 +131,23 @@ class TestComponentTester(unittest.TestCase):
             contents = file.read()
         assert_that(contents, contains_string('<Source name="Summator.out_img">\n\t\t\t<sink>Sink.in_img</sink>'))
 
+    @unittest.skip
+    def test_should_add_new_datastream(self):
+        tester = ComponentTester()
+
+        tester.addDataStream('First', 'out_data', 'Second', 'in_data')
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string('<Source name="First.out_data">\n\t\t\t<sink>Second.in_data</sink>'))
+
+    @unittest.skip
+    def test_should_start_component_test(self):
+        tester = ComponentTester()
+        tester.addGenerator('SampleGenerators:CvMatGenerator', 'out_img')
+        tester.setComponent('Summator', 'CvBasic:Sum', 'in_img', 'out_img')
+        tester.addSink('SampleGenerators:CvMatSink', 'in_img')
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

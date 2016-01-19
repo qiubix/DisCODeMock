@@ -35,3 +35,6 @@ class ComponentTester:
         self.taskBuilder.addComponent('Sink', sinkType)
         self.taskBuilder.addDataStream(self.componentName + '.' + self.componentOutput, 'Sink.' + sinkInput)
         self.taskBuilder.save()
+
+    def addDataStream(self, sourceName, sourcePort, sinkName, sinkPort):
+        pass
