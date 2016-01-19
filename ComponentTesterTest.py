@@ -107,6 +107,17 @@ class TestComponentTester(unittest.TestCase):
         output = tester.getOutput()
         assert_that(output, contains_string('Configuration: File \'' + self.defaultFileName + '\' doesn\'t exist.'))
 
+    def test_should_run_specific_task(self):
+        tester = ComponentTester()
+        tester.taskName = 'SequenceViewer.xml'
+
+        tester.start()
+        time.sleep(.500)
+        tester.runner.kill()
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('Kopiowanie TASKA!'))
+
     def test_should_stop_discode_manually(self):
         tester = ComponentTester()
         tester.start()
