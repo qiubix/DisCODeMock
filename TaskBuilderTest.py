@@ -228,8 +228,9 @@ class TaskBuilderTest(unittest.TestCase):
         sinkName = 'Second.in_put'
         self.builder.addDataStream(sourceName, sinkName)
 
+        newComponentName = 'Third'
         newSinkName = 'in_data'
-        self.builder.updateSink('Second', newSinkName)
+        self.builder.updateSink('Second', newComponentName, newSinkName)
 
         dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
         datastreams = dom.getElementsByTagName('Source')
@@ -238,7 +239,7 @@ class TaskBuilderTest(unittest.TestCase):
         assert_that(datastream.getAttribute('name'), equal_to('First.out_put'))
         sink = datastream.childNodes.item(1)
         assert_that(sink.nodeName, equal_to('sink'))
-        assert_that(sink.firstChild.data, equal_to('Second.' + newSinkName))
+        assert_that(sink.firstChild.data, equal_to(newComponentName + '.' + newSinkName))
 
 
 if __name__ == '__main__':

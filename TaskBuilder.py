@@ -117,8 +117,8 @@ class TaskBuilder:
                 return True
         return False
 
-    def updateSink(self, componentName, newSinkName):
+    def updateSink(self, componentName, newComponentName, newSinkName):
         sinks = self.document.getElementsByTagName('sink')
         for sink in sinks:
             if componentName in sink.firstChild.data:
-                sink.firstChild.data = componentName + '.' + newSinkName
+                sink.firstChild.data = newComponentName + '.' + newSinkName
