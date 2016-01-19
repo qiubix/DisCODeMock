@@ -13,6 +13,7 @@ class ComponentTester:
         self.componentName = 'Component'
         self.componentOutput = 'out_data'
         self.runner = DisCODeRunner()
+        self.taskName = 'test_tasks/test_task.xml'
 
     def setComponent(self, componentName, componentType):
         self.taskBuilder.addComponent(componentName, componentType)
@@ -31,7 +32,7 @@ class ComponentTester:
         self.taskBuilder.save()
 
     def start(self):
-        self.runner.taskName = 'test_tasks/test_task.xml'
+        self.runner.taskName = self.taskName
         self.runner.start()
 
     def getOutput(self):
@@ -39,3 +40,6 @@ class ComponentTester:
 
     def stop(self):
         self.runner.kill()
+
+    def setTerminationStatement(self, terminationStatement):
+        self.runner.terminationStatement = terminationStatement

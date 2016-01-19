@@ -129,6 +129,17 @@ class TestComponentTester(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
+    def test_should_stop_on_termination_statement(self):
+        tester = ComponentTester()
+        tester.taskName = 'SequenceViewer.xml'
+        tester.setTerminationStatement('ERROR')
+        tester.start()
+        time.sleep(.500)
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('Finishing DisCODe.'))
+        assert_that(output, contains_string('Server stoped.'))
+
     @unittest.skip
     def test_should_start_component_test(self):
         tester = ComponentTester()
