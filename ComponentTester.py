@@ -12,29 +12,18 @@ class ComponentTester:
         self.componentName = 'Component'
         self.componentOutput = 'out_data'
 
-    def setComponent(self, componentName, componentType, componentInput = 'in_data', componentOutput = 'out_data'):
-        self.componentName = componentName
-        self.componentOutput = componentOutput
+    def setComponent(self, componentName, componentType):
         self.taskBuilder.addComponent(componentName, componentType)
-        if self.taskBuilder.hasSource('Generator.' + self.generatorOutput):
-            self.taskBuilder.updateSink('Component', componentName, componentInput)
-        else:
-            self.taskBuilder.addDataStream('Generator.' + self.generatorOutput, componentName + '.' + componentInput)
         self.taskBuilder.save()
 
-    def addGenerator(self, generatorType, generatorOutput = 'out_data'):
+    def addGenerator(self, generatorType):
         self.taskBuilder.addComponent('Generator', generatorType)
-        self.generatorOutput = generatorOutput
-        if self.taskBuilder.hasSource('Generator.out_data'):
-            self.taskBuilder.updateSource('Generator', generatorOutput)
-        else:
-            self.taskBuilder.addDataStream('Generator.' + generatorOutput, self.componentSinkName)
         self.taskBuilder.save()
 
     def addSink(self, sinkType, sinkInput = 'in_data'):
         self.taskBuilder.addComponent('Sink', sinkType)
-        self.taskBuilder.addDataStream(self.componentName + '.' + self.componentOutput, 'Sink.' + sinkInput)
         self.taskBuilder.save()
 
     def addDataStream(self, sourceName, sourcePort, sinkName, sinkPort):
-        pass
+        self.taskBuilder.addDataStream(sourceName + '.' + sourcePort, sinkName + '.' + sinkPort)
+        self.taskBuilder.save()

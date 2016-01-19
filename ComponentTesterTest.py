@@ -60,14 +60,13 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_add_sink(self):
         tester = ComponentTester()
-        tester.addSink('SampleGenerators:CvMatSink', 'in_img')
+        tester.addSink('SampleGenerators:CvMatSink')
 
         with open(self.defaultFileName) as file:
             contents = file.read()
         assert_that(contents, contains_string(
                 '<Component bump="0" name="Sink" priority="1" type="SampleGenerators:CvMatSink"/>'))
 
-    @unittest.skip
     def test_should_add_new_datastream(self):
         tester = ComponentTester()
 
@@ -80,9 +79,9 @@ class TestComponentTester(unittest.TestCase):
     @unittest.skip
     def test_should_start_component_test(self):
         tester = ComponentTester()
-        tester.addGenerator('SampleGenerators:CvMatGenerator', 'out_img')
-        tester.setComponent('Summator', 'CvBasic:Sum', 'in_img', 'out_img')
-        tester.addSink('SampleGenerators:CvMatSink', 'in_img')
+        tester.addGenerator('SampleGenerators:CvMatGenerator')
+        tester.setComponent('Summator', 'CvBasic:Sum')
+        tester.addSink('SampleGenerators:CvMatSink')
 
 
 if __name__ == '__main__':
