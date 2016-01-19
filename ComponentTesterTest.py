@@ -56,7 +56,17 @@ class TestComponentTester(unittest.TestCase):
         with open(self.defaultFileName) as file:
             contents = file.read()
         assert_that(contents, contains_string(
-            '<Component bump="0" name="Generator" priority="1" type="SampleGenerators:CvMatGenerator"/>'))
+                '<Component bump="0" name="Generator" priority="1" type="SampleGenerators:CvMatGenerator"/>'))
+
+    def test_should_add_generator_with_specific_name_to_components(self):
+        tester = ComponentTester()
+
+        tester.addGenerator('SampleGenerators:CvMatGenerator', 'AnotherGenerator')
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string(
+            '<Component bump="0" name="AnotherGenerator" priority="1" type="SampleGenerators:CvMatGenerator"/>'))
 
     def test_should_add_sink(self):
         tester = ComponentTester()
@@ -76,12 +86,23 @@ class TestComponentTester(unittest.TestCase):
             contents = file.read()
         assert_that(contents, contains_string('<Source name="First.out_data">\n\t\t\t<sink>Second.in_data</sink>'))
 
+    def test_should_run_discode(self):
+        tester = ComponentTester()
+
+        tester.start()
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
+
     @unittest.skip
     def test_should_start_component_test(self):
         tester = ComponentTester()
         tester.addGenerator('SampleGenerators:CvMatGenerator')
         tester.setComponent('Summator', 'CvBasic:Sum')
         tester.addSink('SampleGenerators:CvMatSink')
+        tester.addDataStream('Generator1', 'out_img', 'Summator', 'in_img1')
+        tester.addDataStream('Generator2', 'out_img', 'Summator', 'in_img2')
+        tester.addDataStream('Summator', 'out_img', 'Sink', 'in_img')
 
 
 if __name__ == '__main__':

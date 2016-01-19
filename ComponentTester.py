@@ -1,3 +1,4 @@
+from DisCODeRunner import DisCODeRunner
 from TaskBuilder import TaskBuilder
 
 
@@ -11,13 +12,14 @@ class ComponentTester:
         self.generatorOutput = 'out_data'
         self.componentName = 'Component'
         self.componentOutput = 'out_data'
+        self.runner = DisCODeRunner()
 
     def setComponent(self, componentName, componentType):
         self.taskBuilder.addComponent(componentName, componentType)
         self.taskBuilder.save()
 
-    def addGenerator(self, generatorType):
-        self.taskBuilder.addComponent('Generator', generatorType)
+    def addGenerator(self, generatorType, generatorName = 'Generator'):
+        self.taskBuilder.addComponent(generatorName, generatorType)
         self.taskBuilder.save()
 
     def addSink(self, sinkType, sinkInput = 'in_data'):
@@ -27,3 +29,9 @@ class ComponentTester:
     def addDataStream(self, sourceName, sourcePort, sinkName, sinkPort):
         self.taskBuilder.addDataStream(sourceName + '.' + sourcePort, sinkName + '.' + sinkPort)
         self.taskBuilder.save()
+
+    def start(self):
+        self.runner.start()
+
+    def getOutput(self):
+        return self.runner.readOutput()
