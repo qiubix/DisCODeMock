@@ -202,6 +202,25 @@ class TaskBuilderTest(unittest.TestCase):
         assert_that(sink.nodeName, equal_to('sink'))
         assert_that(sink.firstChild.data, equal_to(sinkName))
 
+    def test_should_return_true_if_datastream_source_already_exist(self):
+        self.builder.createTemplate()
+        sourceName = 'First.out_put'
+        sinkName = 'Second.in_put'
+        self.builder.addDataStream(sourceName, sinkName)
+
+        assert_that(self.builder.hasSource(sourceName), is_(True))
+
+    def test_should_return_false_if_datastream_source_doesnt_exist(self):
+        self.builder.createTemplate()
+
+        assert_that(self.builder.hasSource('Any.source'), is_(False))
+
+        sourceName = 'First.out_put'
+        sinkName = 'Second.in_put'
+        self.builder.addDataStream(sourceName, sinkName)
+
+        assert_that(self.builder.hasSource('Another.out_put'), is_(False))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -109,3 +109,10 @@ class TaskBuilder:
         for source in sources:
             if componentName in source.getAttribute('name'):
                 source.setAttribute('name', componentName + '.' + newSourceName)
+
+    def hasSource(self, sourceName):
+        sources = self.document.getElementsByTagName('Source')
+        for source in sources:
+            if sourceName is source.getAttribute('name'):
+                return True
+        return False
