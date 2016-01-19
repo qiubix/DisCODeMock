@@ -1,3 +1,4 @@
+import time
 from hamcrest import *
 from subprocess import call
 from os.path import isfile
@@ -105,6 +106,17 @@ class TestComponentTester(unittest.TestCase):
 
         output = tester.getOutput()
         assert_that(output, contains_string('Configuration: File \'' + self.defaultFileName + '\' doesn\'t exist.'))
+
+    def test_should_stop_discode_manually(self):
+        tester = ComponentTester()
+        tester.start()
+        time.sleep(5)
+
+        tester.stop()
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('Finishing DisCODe.'))
+        assert_that(output, contains_string('Server stoped.'))
 
     @unittest.skip
     def test_should_start_component_test(self):

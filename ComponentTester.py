@@ -36,3 +36,6 @@ class ComponentTester:
 
     def getOutput(self):
         return self.runner.readOutput()
+
+    def stop(self):
+        self.runner.kill()
