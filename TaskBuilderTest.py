@@ -185,7 +185,7 @@ class TaskBuilderTest(unittest.TestCase):
         assert_that(sink.nodeName, equal_to('sink'))
         assert_that(sink.firstChild.data, equal_to(sinkName))
 
-    def test_should_update_data_stream(self):
+    def test_should_update_data_stream_source(self):
         self.builder.createTemplate()
         sourceName = 'First.out_put'
         sinkName = 'Second.in_put'
@@ -193,6 +193,7 @@ class TaskBuilderTest(unittest.TestCase):
 
         newSourceName = 'out_data'
         self.builder.updateSource('First', newSourceName)
+
         dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
         datastreams = dom.getElementsByTagName('Source')
         assert_that(datastreams.length, equal_to(1))
@@ -220,6 +221,24 @@ class TaskBuilderTest(unittest.TestCase):
         self.builder.addDataStream(sourceName, sinkName)
 
         assert_that(self.builder.hasSource('Another.out_put'), is_(False))
+
+    def test_should_update_data_stream_sink(self):
+        self.builder.createTemplate()
+        sourceName = 'First.out_put'
+        sinkName = 'Second.in_put'
+        self.builder.addDataStream(sourceName, sinkName)
+
+        newSinkName = 'in_data'
+        self.builder.updateSink('Second', newSinkName)
+
+        dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
+        datastreams = dom.getElementsByTagName('Source')
+        assert_that(datastreams.length, equal_to(1))
+        datastream = datastreams.item(0)
+        assert_that(datastream.getAttribute('name'), equal_to('First.out_put'))
+        sink = datastream.childNodes.item(1)
+        assert_that(sink.nodeName, equal_to('sink'))
+        assert_that(sink.firstChild.data, equal_to('Second.' + newSinkName))
 
 
 if __name__ == '__main__':

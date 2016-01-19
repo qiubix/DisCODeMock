@@ -116,3 +116,9 @@ class TaskBuilder:
             if source.getAttribute('name') == sourceName:
                 return True
         return False
+
+    def updateSink(self, componentName, newSinkName):
+        sinks = self.document.getElementsByTagName('sink')
+        for sink in sinks:
+            if componentName in sink.firstChild.data:
+                sink.firstChild.data = componentName + '.' + newSinkName
