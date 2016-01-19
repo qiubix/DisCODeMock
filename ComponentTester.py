@@ -31,7 +31,7 @@ class ComponentTester:
             self.taskBuilder.addDataStream('Generator.' + generatorOutput, self.componentSinkName)
         self.taskBuilder.save()
 
-    def addSink(self, sinkType):
+    def addSink(self, sinkType, sinkInput = 'in_data'):
         self.taskBuilder.addComponent('Sink', sinkType)
-        self.taskBuilder.addDataStream(self.componentName + '.' + self.componentOutput, 'Sink.in_data')
+        self.taskBuilder.addDataStream(self.componentName + '.' + self.componentOutput, 'Sink.' + sinkInput)
         self.taskBuilder.save()

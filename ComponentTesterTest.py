@@ -121,6 +121,16 @@ class TestComponentTester(unittest.TestCase):
             contents = file.read()
         assert_that(contents, contains_string('<Source name="Summator.out_img">\n\t\t\t<sink>Sink.in_data</sink>'))
 
+    def test_should_add_sink_with_specific_port_name(self):
+        tester = ComponentTester()
+        tester.setComponent('Summator', 'CvBasic:Sum', 'in_img', 'out_img')
+
+        tester.addSink('SampleGenerators:CvMatSink', 'in_img')
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string('<Source name="Summator.out_img">\n\t\t\t<sink>Sink.in_img</sink>'))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
