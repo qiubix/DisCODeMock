@@ -7,6 +7,7 @@ class ComponentTester:
         self.taskBuilder.createTemplate()
         self.taskBuilder.addDefaultExecutor()
         self.taskBuilder.save()
+        self.componentSinkName = 'Component.in_data'
 
     def setComponent(self, componentName, componentType, componentInput = 'in_data'):
         self.taskBuilder.addComponent(componentName, componentType)
@@ -15,7 +16,10 @@ class ComponentTester:
 
     def addGenerator(self, generatorType, generatorOutput = 'out_data'):
         self.taskBuilder.addComponent('Generator', generatorType)
-        self.taskBuilder.addDataStream('Generator.' + generatorOutput, 'Component.in_data')
+        if self.taskBuilder.hasSource('Generator.out_data'):
+            self.taskBuilder.updateSource('Generator', generatorOutput)
+        else:
+            self.taskBuilder.addDataStream('Generator.' + generatorOutput, self.componentSinkName)
         self.taskBuilder.save()
 
     def setGeneratorOutputName(self, outputName):

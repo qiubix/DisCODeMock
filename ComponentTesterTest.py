@@ -88,7 +88,6 @@ class TestComponentTester(unittest.TestCase):
             contents = file.read()
         assert_that(contents, contains_string('<Source name="Generator.out_img">'))
 
-    @unittest.skip
     def test_should_update_datastream_when_adding_generator_with_other_output_name(self):
         tester = ComponentTester()
         tester.setComponent('Summator', 'CvBasic:Sum')
