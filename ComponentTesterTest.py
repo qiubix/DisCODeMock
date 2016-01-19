@@ -97,6 +97,15 @@ class TestComponentTester(unittest.TestCase):
             contents = file.read()
         assert_that(contents, contains_string('<Source name="Generator.out_img">\n\t\t\t<sink>Summator.in_data</sink>'))
 
+    def test_should_update_datastream_when_adding_component_after_generator_is_set(self):
+        tester = ComponentTester()
+        tester.addGenerator('SampleGenerators:CvMatGenerator', 'out_img')
+        tester.setComponent('Summator', 'CvBasic:Sum', 'in_img')
+
+        with open(self.defaultFileName) as file:
+            contents = file.read()
+        assert_that(contents, contains_string('<Source name="Generator.out_img">\n\t\t\t<sink>Summator.in_img</sink>'))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
