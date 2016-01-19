@@ -88,11 +88,23 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_run_discode(self):
         tester = ComponentTester()
+        if isfile(self.defaultFileName):
+            call(['rm', self.defaultFileName])
 
         tester.start()
 
         output = tester.getOutput()
         assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
+
+    def test_should_run_task_with_default_name(self):
+        tester = ComponentTester()
+        if isfile(self.defaultFileName):
+            call(['rm', self.defaultFileName])
+
+        tester.start()
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('Configuration: File \'' + self.defaultFileName + '\' doesn\'t exist.'))
 
     @unittest.skip
     def test_should_start_component_test(self):

@@ -31,6 +31,7 @@ class ComponentTester:
         self.taskBuilder.save()
 
     def start(self):
+        self.runner.taskName = 'test_tasks/test_task.xml'
         self.runner.start()
 
     def getOutput(self):
