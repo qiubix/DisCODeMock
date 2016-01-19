@@ -113,6 +113,6 @@ class TaskBuilder:
     def hasSource(self, sourceName):
         sources = self.document.getElementsByTagName('Source')
         for source in sources:
-            if sourceName is source.getAttribute('name'):
+            if source.getAttribute('name') == sourceName:
                 return True
         return False
