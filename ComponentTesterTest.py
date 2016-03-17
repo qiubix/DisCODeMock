@@ -107,7 +107,7 @@ class TestComponentTester(unittest.TestCase):
         output = tester.getOutput()
         assert_that(output, contains_string('Configuration: File \'' + self.defaultFileName + '\' doesn\'t exist.'))
 
-    @unittest.skip('integration test skipped!')
+    # @unittest.skip('integration test skipped!')
     def test_should_run_specific_task(self):
         tester = ComponentTester()
         tester.taskName = 'SequenceViewer.xml'
@@ -119,7 +119,7 @@ class TestComponentTester(unittest.TestCase):
         output = tester.getOutput()
         assert_that(output, contains_string('Kopiowanie TASKA!'))
 
-    @unittest.skip('integration test skipped!')
+    # @unittest.skip('integration test skipped!')
     def test_should_stop_discode_manually(self):
         tester = ComponentTester()
         tester.start()
@@ -131,7 +131,7 @@ class TestComponentTester(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
-    @unittest.skip('integration test skipped!')
+    # @unittest.skip('integration test skipped!')
     def test_should_stop_on_termination_statement(self):
         tester = ComponentTester()
         tester.taskName = 'SequenceViewer.xml'
@@ -143,7 +143,7 @@ class TestComponentTester(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
-    # @unittest.skip('test not ready')
+    # @unittest.skip('integration test skipped!')
     def test_should_check_component_output(self):
         tester = ComponentTester()
         # print('adding generator...')
