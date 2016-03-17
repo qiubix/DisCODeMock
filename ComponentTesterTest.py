@@ -107,6 +107,7 @@ class TestComponentTester(unittest.TestCase):
         output = tester.getOutput()
         assert_that(output, contains_string('Configuration: File \'' + self.defaultFileName + '\' doesn\'t exist.'))
 
+    @unittest.skip('integration test skipped!')
     def test_should_run_specific_task(self):
         tester = ComponentTester()
         tester.taskName = 'SequenceViewer.xml'
@@ -118,6 +119,7 @@ class TestComponentTester(unittest.TestCase):
         output = tester.getOutput()
         assert_that(output, contains_string('Kopiowanie TASKA!'))
 
+    @unittest.skip('integration test skipped!')
     def test_should_stop_discode_manually(self):
         tester = ComponentTester()
         tester.start()
@@ -129,6 +131,7 @@ class TestComponentTester(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
+    @unittest.skip('integration test skipped!')
     def test_should_stop_on_termination_statement(self):
         tester = ComponentTester()
         tester.taskName = 'SequenceViewer.xml'
@@ -140,15 +143,28 @@ class TestComponentTester(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
-    @unittest.skip
-    def test_should_start_component_test(self):
+    # @unittest.skip('test not ready')
+    def test_should_check_component_output(self):
         tester = ComponentTester()
-        tester.addGenerator('SampleGenerators:CvMatGenerator')
+        print('adding generator...')
+        tester.addGenerator('SampleGenerators:CvMatGenerator', 'Generator1')
+        tester.addGenerator('SampleGenerators:CvMatGenerator', 'Generator2')
+        print('adding component...')
         tester.setComponent('Summator', 'CvBasic:Sum')
+        print('adding component...')
         tester.addSink('SampleGenerators:CvMatSink')
         tester.addDataStream('Generator1', 'out_img', 'Summator', 'in_img1')
         tester.addDataStream('Generator2', 'out_img', 'Summator', 'in_img2')
         tester.addDataStream('Summator', 'out_img', 'Sink', 'in_img')
+        tester.setTerminationStatement('END OF SEQUENCE')
+        print('Task body:')
+        print(tester.taskBuilder.getTaskBody())
+
+        tester.start()
+
+        output = tester.getOutput()
+        print(output)
+        assert_that(output, contains_string('[2, 2, 2, 2;\n  2, 2, 2, 2;\n  2, 2, 2, 2]'))
 
 
 if __name__ == '__main__':
