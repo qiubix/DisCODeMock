@@ -29,6 +29,7 @@ class DisCODeRunner:
     def readOutput(self):
         lines = self.process.stdout.readlines()
         log = ''.join(lines)
+        log = self.output + log
         return log
 
     def start(self):
@@ -51,6 +52,7 @@ class DisCODeRunner:
     def killOnTerminationStatement(self):
         while True:
             line = self.process.stdout.readline()
+            self.output += line
             if self.terminationStatement in line:
                 self.process.send_signal(signal.SIGINT)
                 break

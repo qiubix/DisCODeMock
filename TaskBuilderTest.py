@@ -185,6 +185,62 @@ class TaskBuilderTest(unittest.TestCase):
         assert_that(sink.nodeName, equal_to('sink'))
         assert_that(sink.firstChild.data, equal_to(sinkName))
 
+    def test_should_update_data_stream_source(self):
+        self.builder.createTemplate()
+        sourceName = 'First.out_put'
+        sinkName = 'Second.in_put'
+        self.builder.addDataStream(sourceName, sinkName)
+
+        newSourceName = 'out_data'
+        self.builder.updateSource('First', newSourceName)
+
+        dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
+        datastreams = dom.getElementsByTagName('Source')
+        assert_that(datastreams.length, equal_to(1))
+        datastream = datastreams.item(0)
+        assert_that(datastream.getAttribute('name'), equal_to('First.' + newSourceName))
+        sink = datastream.childNodes.item(1)
+        assert_that(sink.nodeName, equal_to('sink'))
+        assert_that(sink.firstChild.data, equal_to(sinkName))
+
+    def test_should_return_true_if_datastream_source_already_exist(self):
+        self.builder.createTemplate()
+        sourceName = 'First.out_put'
+        sinkName = 'Second.in_put'
+        self.builder.addDataStream(sourceName, sinkName)
+
+        assert_that(self.builder.hasSource(sourceName), is_(True))
+
+    def test_should_return_false_if_datastream_source_doesnt_exist(self):
+        self.builder.createTemplate()
+
+        assert_that(self.builder.hasSource('Any.source'), is_(False))
+
+        sourceName = 'First.out_put'
+        sinkName = 'Second.in_put'
+        self.builder.addDataStream(sourceName, sinkName)
+
+        assert_that(self.builder.hasSource('Another.out_put'), is_(False))
+
+    def test_should_update_data_stream_sink(self):
+        self.builder.createTemplate()
+        sourceName = 'First.out_put'
+        sinkName = 'Second.in_put'
+        self.builder.addDataStream(sourceName, sinkName)
+
+        newComponentName = 'Third'
+        newSinkName = 'in_data'
+        self.builder.updateSink('Second', newComponentName, newSinkName)
+
+        dom = xml.dom.minidom.parseString(self.builder.getTaskBody())
+        datastreams = dom.getElementsByTagName('Source')
+        assert_that(datastreams.length, equal_to(1))
+        datastream = datastreams.item(0)
+        assert_that(datastream.getAttribute('name'), equal_to('First.out_put'))
+        sink = datastream.childNodes.item(1)
+        assert_that(sink.nodeName, equal_to('sink'))
+        assert_that(sink.firstChild.data, equal_to(newComponentName + '.' + newSinkName))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -103,3 +103,22 @@ class TaskBuilder:
         datastream.appendChild(sink)
         datastreams = self.document.getElementsByTagName('DataStreams').item(0)
         datastreams.appendChild(datastream)
+
+    def updateSource(self, componentName, newSourceName):
+        sources = self.document.getElementsByTagName('Source')
+        for source in sources:
+            if componentName in source.getAttribute('name'):
+                source.setAttribute('name', componentName + '.' + newSourceName)
+
+    def hasSource(self, sourceName):
+        sources = self.document.getElementsByTagName('Source')
+        for source in sources:
+            if source.getAttribute('name') == sourceName:
+                return True
+        return False
+
+    def updateSink(self, componentName, newComponentName, newSinkName):
+        sinks = self.document.getElementsByTagName('sink')
+        for sink in sinks:
+            if componentName in sink.firstChild.data:
+                sink.firstChild.data = newComponentName + '.' + newSinkName
