@@ -28,7 +28,8 @@ class DisCODeRunner:
 
     def readOutput(self):
         lines = self.process.stdout.readlines()
-        log = self.output.join(lines)
+        log = ''.join(lines)
+        log = self.output + log
         return log
 
     def start(self):

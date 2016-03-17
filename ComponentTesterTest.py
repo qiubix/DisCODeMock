@@ -146,24 +146,25 @@ class TestComponentTester(unittest.TestCase):
     # @unittest.skip('test not ready')
     def test_should_check_component_output(self):
         tester = ComponentTester()
-        print('adding generator...')
+        # print('adding generator...')
         tester.addGenerator('SampleGenerators:CvMatGenerator', 'Generator1')
         tester.addGenerator('SampleGenerators:CvMatGenerator', 'Generator2')
-        print('adding component...')
+        # print('adding component...')
         tester.setComponent('Summator', 'CvBasic:Sum')
-        print('adding component...')
+        # print('adding component...')
         tester.addSink('SampleGenerators:CvMatSink')
         tester.addDataStream('Generator1', 'out_img', 'Summator', 'in_img1')
         tester.addDataStream('Generator2', 'out_img', 'Summator', 'in_img2')
         tester.addDataStream('Summator', 'out_img', 'Sink', 'in_img')
         tester.setTerminationStatement('END OF SEQUENCE')
-        print('Task body:')
-        print(tester.taskBuilder.getTaskBody())
+        # print('Task body:')
+        # print(tester.taskBuilder.getTaskBody())
 
         tester.start()
 
         output = tester.getOutput()
-        print(output)
+        # print(output)
+        # print('finished printing output')
         assert_that(output, contains_string('[2, 2, 2, 2;\n  2, 2, 2, 2;\n  2, 2, 2, 2]'))
 
 
