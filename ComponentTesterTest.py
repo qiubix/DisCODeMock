@@ -163,8 +163,8 @@ class TestComponentTester(unittest.TestCase):
         tester.addDataStream('Generator2', 'out_img', 'Summator', 'in_img2')
         tester.addDataStream('Summator', 'out_img', 'Sink', 'in_img')
         tester.setTerminationStatement('END OF SEQUENCE')
-        # print('Task body:')
-        # print(tester.taskBuilder.getTaskBody())
+        print('Task body:')
+        print(tester.taskBuilder.getTaskBody())
 
         tester.start()
 
