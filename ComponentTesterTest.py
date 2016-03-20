@@ -149,6 +149,13 @@ class TestComponentTester(unittest.TestCase):
         dependencyPath = discode_dcl_dir + '/SampleGenerators/dist'
         assert_that(dependencyPath, is_not(empty))
 
+    def test_should_have_cvbasic_sum_component_installed(self):
+        import os
+        discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
+        libPath = discode_dcl_dir + '/CvBasic/dist/lib/libSum.so'
+        print(libPath)
+        assert_that(isfile(libPath), is_(True))
+
     # @unittest.skip('integration test skipped!')
     def test_should_check_component_output(self):
         tester = ComponentTester()
