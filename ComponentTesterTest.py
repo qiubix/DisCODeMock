@@ -145,6 +145,11 @@ class TestComponentTester(unittest.TestCase):
 
     # @unittest.skip('integration test skipped!')
     def test_should_check_component_output(self):
+        import os
+        discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
+        dependencyPath = discode_dcl_dir + '/SampleGenerators/dist'
+        assert_that(dependencyPath, is_not(empty))
+
         tester = ComponentTester()
         # print('adding generator...')
         tester.addGenerator('SampleGenerators:CvMatGenerator', 'Generator1')
