@@ -143,13 +143,14 @@ class TestComponentTester(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
-    # @unittest.skip('integration test skipped!')
-    def test_should_check_component_output(self):
+    def test_should_have_default_generators_installed(self):
         import os
         discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
         dependencyPath = discode_dcl_dir + '/SampleGenerators/dist'
         assert_that(dependencyPath, is_not(empty))
 
+    # @unittest.skip('integration test skipped!')
+    def test_should_check_component_output(self):
         tester = ComponentTester()
         # print('adding generator...')
         tester.addGenerator('SampleGenerators:CvMatGenerator', 'Generator1')
