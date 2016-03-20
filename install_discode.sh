@@ -19,5 +19,11 @@ fi
 if [ ! -d ~/src/DCL/CvBasic ]; then
   git clone https://github.com/maciek-slon/DCL_CvBasic ~/src/DCL/CvBasic
   cd ~/src/DCL/CvBasic && mkdir build && cd build
-  cmake .. -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=true && make Sequence procCvWindow -j3 && make install/fast
+  cmake .. -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=true && make Sequence Sum -j3 && make install/fast
+fi
+
+if [ ! -d ~/src/DCL/SampleGenerators ]; then
+  git clone https://github.com/qiubix/SampleGenerators ~/src/DCL/SampleGenerators
+  cd ~/src/DCL/SampleGenerators && mkdir build && cd build
+  cmake .. && make -j3 && make install
 fi

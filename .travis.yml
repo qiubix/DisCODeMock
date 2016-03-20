@@ -27,5 +27,6 @@ before_script:
 script:
   - coverage run --source=DisCODeRunner.py DisCODeRunnerTest.py
   - coverage run --source=TaskBuilder.py TaskBuilderTest.py
+  - coverage run --source=ComponentTester.py ComponentTesterTest.py
 after_success:
   - coveralls

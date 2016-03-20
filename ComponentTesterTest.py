@@ -143,6 +143,19 @@ class TestComponentTester(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
+    def test_should_have_default_generators_installed(self):
+        import os
+        discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
+        dependencyPath = discode_dcl_dir + '/SampleGenerators/dist'
+        assert_that(dependencyPath, is_not(empty))
+
+    def test_should_have_cvbasic_sum_component_installed(self):
+        import os
+        discode_dcl_dir = os.environ['DISCODE_DCL_DIR']
+        libPath = discode_dcl_dir + '/CvBasic/dist/lib/libSum.so'
+        print(libPath)
+        assert_that(isfile(libPath), is_(True))
+
     # @unittest.skip('integration test skipped!')
     def test_should_check_component_output(self):
         tester = ComponentTester()
@@ -169,4 +182,4 @@ class TestComponentTester(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    unittest.main(warnings='ignore', verbosity=2)
