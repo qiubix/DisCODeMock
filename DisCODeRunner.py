@@ -52,7 +52,6 @@ class DisCODeRunner:
     def killOnTerminationStatement(self):
         while True:
             line = self.process.stdout.readline()
-            print(line)
             self.output += line
             if self.terminationStatement in line:
                 self.process.send_signal(signal.SIGINT)
