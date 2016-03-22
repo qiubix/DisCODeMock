@@ -1,7 +1,7 @@
 import time
 from hamcrest import *
 import unittest
-from DisCODeRunner import DisCODeRunner
+from discoderunner import DisCODeRunner
 
 
 class TestDisCODeRunner(unittest.TestCase):

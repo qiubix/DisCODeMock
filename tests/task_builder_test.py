@@ -3,7 +3,7 @@ import xml.dom.minidom
 from hamcrest import *
 from subprocess import call
 
-from TaskBuilder import TaskBuilder
+from discoderunner import TaskBuilder
 
 
 class TaskBuilderTest(unittest.TestCase):

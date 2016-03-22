@@ -1,10 +1,11 @@
 import time
-from hamcrest import *
-from subprocess import call
-from os.path import isfile
 import unittest
+from os.path import isfile
+from subprocess import call
 
-from ComponentTester import ComponentTester
+from hamcrest import *
+
+from discoderunner import ComponentTester
 
 
 class TestComponentTester(unittest.TestCase):

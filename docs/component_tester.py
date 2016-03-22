@@ -1,5 +1,4 @@
-from DisCODeRunner import DisCODeRunner
-from TaskBuilder import TaskBuilder
+from discoderunner import DisCODeRunner, TaskBuilder
 
 
 class ComponentTester:
