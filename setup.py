@@ -10,4 +10,5 @@ setup(name='discoderunner',
       packages=['discoderunner'],
       test_suite='nose.collector',
       tests_require=['nose'],
+      scripts=['bin/install_discode.sh'],
       zip_safe=False)
