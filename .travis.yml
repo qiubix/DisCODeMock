@@ -21,7 +21,6 @@ before_script:
   - export PYTHONPATH='.'
   - export PATH=$PATH:/home/travis/src/DisCODe/build/inst/bin
   - export DISCODE_DCL_DIR=/home/travis/src/DCL/
-  # ./install_discode.sh
   - cd ~/build/qiubix/DisCODeRunner
   - mkdir -p data/test_tasks
   - python setup.py install
