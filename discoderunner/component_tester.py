@@ -12,7 +12,7 @@ class ComponentTester:
         self.componentName = 'Component'
         self.componentOutput = 'out_data'
         self.runner = DisCODeRunner()
-        self.taskName = 'test_tasks/test_task.xml'
+        self.taskName = 'data/test_tasks/test_task.xml'
 
     def setComponent(self, componentName, componentType):
         self.taskBuilder.addComponent(componentName, componentType)

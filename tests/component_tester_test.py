@@ -10,7 +10,7 @@ from discoderunner import ComponentTester
 
 class TestComponentTester(unittest.TestCase):
     def setUp(self):
-        self.defaultFileName = 'test_tasks/test_task.xml'
+        self.defaultFileName = 'data/test_tasks/test_task.xml'
         if isfile(self.defaultFileName):
             call(['rm', self.defaultFileName])
 
@@ -100,6 +100,7 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_run_task_with_default_name(self):
         tester = ComponentTester()
+        print(call(['pwd']))
         if isfile(self.defaultFileName):
             call(['rm', self.defaultFileName])
 
@@ -135,7 +136,7 @@ class TestComponentTester(unittest.TestCase):
     # @unittest.skip('integration test skipped!')
     def test_should_stop_on_termination_statement(self):
         tester = ComponentTester()
-        tester.taskName = 'SequenceViewer.xml'
+        tester.taskName = 'data/SequenceViewer.xml'
         tester.setTerminationStatement('ERROR')
         tester.start()
         time.sleep(.500)
