@@ -13,7 +13,7 @@ class TaskBuilder:
 
     def save(self):
         if self.fileName == '':
-            fileName = 'test_tasks/test_task.xml'
+            fileName = 'data/test_tasks/test_task.xml'
         else:
             fileName = self.fileName
         with open(fileName, 'w') as file:

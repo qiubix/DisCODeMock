@@ -1,7 +1,7 @@
 import time
 from hamcrest import *
 import unittest
-from DisCODeRunner import DisCODeRunner
+from discoderunner import DisCODeRunner
 
 
 class TestDisCODeRunner(unittest.TestCase):
@@ -52,7 +52,7 @@ class TestDisCODeRunner(unittest.TestCase):
         assert_that(output, contains_string('Kopiowanie TASKA!'))
 
     def test_if_discode_is_killed_manually(self):
-        self.runner.taskName = 'SequenceViewer.xml'
+        self.runner.taskName = 'data/SequenceViewer.xml'
         self.runner.logLevel = '0'
         self.runner.start()
         time.sleep(5)
@@ -64,7 +64,7 @@ class TestDisCODeRunner(unittest.TestCase):
         assert_that(output, contains_string('Server stoped.'))
 
     def test_if_discode_is_killed_on_termination_statement(self):
-        self.runner.taskName = 'SequenceViewer.xml'
+        self.runner.taskName = 'data/SequenceViewer.xml'
         self.runner.terminationStatement = 'ERROR'
 
         self.runner.start()
