@@ -3,18 +3,18 @@ import xml.dom.minidom
 from hamcrest import *
 from subprocess import call
 
-from TaskBuilder import TaskBuilder
+from discoderunner import TaskBuilder
 
 
 class TaskBuilderTest(unittest.TestCase):
     def setUp(self):
-        self.defaultFileName = 'test_tasks/test_task.xml'
+        self.defaultFileName = 'data/test_tasks/test_task.xml'
         self.builder = TaskBuilder()
 
     def test_should_create_file_with_specific_name(self):
-        file_name = 'test_tasks/sample_test_task.xml'
+        file_name = 'data/test_tasks/sample_test_task.xml'
         sample_string = 'sample string'
-        call(['rm', 'test_tasks/sample_test_task.xml'])
+        call(['rm', 'data/test_tasks/sample_test_task.xml'])
         self.builder.fileName = file_name
 
         self.builder.writeToFile(sample_string)
@@ -243,4 +243,4 @@ class TaskBuilderTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    unittest.main(warnings='ignore', verbosity=2)

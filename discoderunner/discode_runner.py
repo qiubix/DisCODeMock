@@ -1,7 +1,7 @@
 import signal
 import subprocess
 
-from processes import DisCODeProcess, OutputMonitor
+# from discoderunner import DisCODeProcess, OutputMonitor
 
 
 class DisCODeRunner:
@@ -14,17 +14,17 @@ class DisCODeRunner:
         self.output = ''
         self.log = ''
         self.logLevel = ''
-        self.discodeProcess = None
+        # self.discodeProcess = None
 
-    def runDisCODe(self):
-        self.discodeProcess = DisCODeProcess(self.taskName)
-        self.discodeProcess.daemon = True
-        self.discodeProcess.start()
+    # def runDisCODe(self):
+    #     self.discodeProcess = DisCODeProcess(self.taskName)
+    #     self.discodeProcess.daemon = True
+    #     self.discodeProcess.start()
 
-    def runMonitor(self):
-        self.monitor = OutputMonitor()
-        self.monitor.daemon = True
-        self.monitor.start()
+    # def runMonitor(self):
+    #     self.monitor = OutputMonitor()
+    #     self.monitor.daemon = True
+    #     self.monitor.start()
 
     def readOutput(self):
         lines = self.process.stdout.readlines()
