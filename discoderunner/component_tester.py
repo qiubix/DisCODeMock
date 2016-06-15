@@ -40,5 +40,8 @@ class ComponentTester:
     def stop(self):
         self.runner.kill()
 
-    def setTerminationStatement(self, terminationStatement):
-        self.runner.terminationStatement = terminationStatement
+    def addTerminationStatement(self, terminationStatement):
+        self.runner.terminationStatements.append(terminationStatement)
+
+    def resetTerminationStatements(self):
+        self.runner.terminationStatements = []

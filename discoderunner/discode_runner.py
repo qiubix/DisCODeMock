@@ -10,6 +10,7 @@ class DisCODeRunner:
         self.monitor = None
         self.taskName = ''
         self.terminationStatement = ''
+        self.terminationStatements = ['ERROR']
         self.killSignal = False
         self.output = ''
         self.log = ''
@@ -38,7 +39,7 @@ class DisCODeRunner:
         self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                         universal_newlines=True)
 
-        if self.terminationStatement != '':
+        if self.terminationStatement != '' or len(self.terminationStatements) != 0:
             self.killOnTerminationStatement()
 
     def getCommand(self):
@@ -53,9 +54,11 @@ class DisCODeRunner:
         while True:
             line = self.process.stdout.readline()
             self.output += line
-            if self.terminationStatement in line:
-                self.process.send_signal(signal.SIGINT)
-                break
+            print(line)
+            for terminationStatement in self.terminationStatements:
+                if terminationStatement in line:
+                    self.process.send_signal(signal.SIGINT)
+                    return
 
     def kill(self):
         self.process.send_signal(signal.SIGINT)

@@ -90,6 +90,7 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_run_discode(self):
         tester = ComponentTester()
+        tester.resetTerminationStatements()
         if isfile(self.defaultFileName):
             call(['rm', self.defaultFileName])
 
@@ -100,6 +101,7 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_run_task_with_default_name(self):
         tester = ComponentTester()
+        tester.resetTerminationStatements()
         print(call(['pwd']))
         if isfile(self.defaultFileName):
             call(['rm', self.defaultFileName])
@@ -112,6 +114,7 @@ class TestComponentTester(unittest.TestCase):
     # @unittest.skip('integration test skipped!')
     def test_should_run_specific_task(self):
         tester = ComponentTester()
+        tester.resetTerminationStatements()
         tester.taskName = 'SequenceViewer.xml'
 
         tester.start()
@@ -124,6 +127,7 @@ class TestComponentTester(unittest.TestCase):
     # @unittest.skip('integration test skipped!')
     def test_should_stop_discode_manually(self):
         tester = ComponentTester()
+        tester.resetTerminationStatements()
         tester.start()
         time.sleep(5)
 
@@ -137,7 +141,17 @@ class TestComponentTester(unittest.TestCase):
     def test_should_stop_on_termination_statement(self):
         tester = ComponentTester()
         tester.taskName = 'data/SequenceViewer.xml'
-        tester.setTerminationStatement('ERROR')
+        tester.addTerminationStatement('ERROR')
+        tester.start()
+        time.sleep(.500)
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('Finishing DisCODe.'))
+        assert_that(output, contains_string('Server stoped.'))
+
+    def test_should_stop_on_error_by_default(self):
+        tester = ComponentTester()
+        tester.taskName = 'data/SequenceViewer.xml'
         tester.start()
         time.sleep(.500)
 
@@ -171,7 +185,7 @@ class TestComponentTester(unittest.TestCase):
         tester.addDataStream('Generator1', 'out_img', 'Summator', 'in_img1')
         tester.addDataStream('Generator2', 'out_img', 'Summator', 'in_img2')
         tester.addDataStream('Summator', 'out_img', 'Sink', 'in_img')
-        tester.setTerminationStatement('END OF SEQUENCE')
+        tester.addTerminationStatement('END OF SEQUENCE')
         # print('Task body:')
         # print(tester.taskBuilder.getTaskBody())
 
