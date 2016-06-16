@@ -93,6 +93,7 @@ class TestDisCODeRunner(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
+    @unittest.skip('integration test skipped!')
     def test_if_prints_output_when_debug_flag_is_set(self):
         from io import StringIO
         out = StringIO()

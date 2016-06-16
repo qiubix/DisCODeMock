@@ -2,8 +2,8 @@ from xml.dom.minidom import getDOMImplementation
 
 
 class TaskBuilder:
-    def __init__(self):
-        self.fileName = ''
+    def __init__(self, fileName=''):
+        self.fileName = fileName
         self.taskBody = ''
         self.document = None
 

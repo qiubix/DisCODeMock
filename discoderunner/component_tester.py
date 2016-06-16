@@ -2,8 +2,11 @@ from discoderunner import DisCODeRunner, TaskBuilder
 
 
 class ComponentTester:
-    def __init__(self):
-        self.taskBuilder = TaskBuilder()
+    def __init__(self, taskName='test_task'):
+        self.taskDirectory = 'data/test_tasks/'
+        self.taskName = taskName + '.xml'
+        taskPath = self.taskDirectory + self.taskName
+        self.taskBuilder = TaskBuilder(taskPath)
         self.taskBuilder.createTemplate()
         self.taskBuilder.addDefaultExecutor()
         self.taskBuilder.save()
@@ -12,7 +15,6 @@ class ComponentTester:
         self.componentName = 'Component'
         self.componentOutput = 'out_data'
         self.runner = DisCODeRunner()
-        self.taskName = 'data/test_tasks/test_task.xml'
 
     def setComponent(self, componentName, componentType):
         self.taskBuilder.addComponent(componentName, componentType)
@@ -31,7 +33,7 @@ class ComponentTester:
         self.taskBuilder.save()
 
     def start(self):
-        self.runner.taskName = self.taskName
+        self.runner.taskName = self.taskDirectory + self.taskName
         self.runner.start()
 
     def getOutput(self):

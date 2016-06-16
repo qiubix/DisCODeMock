@@ -11,6 +11,7 @@ from discoderunner import ComponentTester
 class TestComponentTester(unittest.TestCase):
     def setUp(self):
         self.defaultFileName = 'data/test_tasks/test_task.xml'
+        self.defaultTaskDirectory = 'data/test_tasks/'
         if isfile(self.defaultFileName):
             call(['rm', self.defaultFileName])
 
@@ -21,6 +22,16 @@ class TestComponentTester(unittest.TestCase):
         tester = ComponentTester()
 
         assert_that(isfile(self.defaultFileName), is_(True))
+
+    def test_should_save_to_specific_file_on_init(self):
+        specificTaskName = 'specific_task'
+        specificTaskPath = self.defaultTaskDirectory + specificTaskName + '.xml'
+        if isfile(specificTaskPath):
+            call(['rm', specificTaskPath])
+
+        tester = ComponentTester(specificTaskName)
+
+        assert_that(isfile(specificTaskPath), is_(True))
 
     def test_should_create_task_template_on_init(self):
         tester = ComponentTester()
@@ -205,7 +216,13 @@ class TestComponentTester(unittest.TestCase):
         tester.setDebugMode(True)
 
         from io import StringIO
+        from unittest.mock import patch
         import sys
+
+        # with patch('sys.stdout', new=StringIO()) as fakeOutput:
+        #     tester.start()
+        #     output = fakeOutput.getvalue().strip()
+        #     assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
         try:
             out = StringIO()
             sys.stdout = out
