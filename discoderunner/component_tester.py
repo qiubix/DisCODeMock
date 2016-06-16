@@ -45,3 +45,6 @@ class ComponentTester:
 
     def resetTerminationStatements(self):
         self.runner.terminationStatements = []
+
+    def setDebugMode(self, debugMode):
+        self.runner.debugMode = debugMode
