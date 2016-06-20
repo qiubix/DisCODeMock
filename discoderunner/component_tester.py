@@ -32,8 +32,11 @@ class ComponentTester:
         self.taskBuilder.addDataStream(sourceName + '.' + sourcePort, sinkName + '.' + sinkPort)
         self.taskBuilder.save()
 
-    def start(self):
-        self.runner.taskName = self.taskDirectory + self.taskName
+    def start(self, taskName=''):
+        if taskName is '':
+            self.runner.taskName = self.taskDirectory + self.taskName
+        else:
+            self.runner.taskName = taskName
         self.runner.start()
 
     def getOutput(self):

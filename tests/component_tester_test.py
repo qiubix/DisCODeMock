@@ -132,7 +132,7 @@ class TestComponentTester(unittest.TestCase):
         output = tester.getOutput()
         assert_that(output, contains_string('Configuration: File \'' + self.defaultFileName + '\' doesn\'t exist.'))
 
-    @unittest.skip('integration test skipped!')
+    # @unittest.skip('integration test skipped!')
     def test_should_run_specific_task(self):
         tester = ComponentTester()
         tester.resetTerminationStatements()
@@ -145,7 +145,7 @@ class TestComponentTester(unittest.TestCase):
         output = tester.getOutput()
         assert_that(output, contains_string('Kopiowanie TASKA!'))
 
-    @unittest.skip('integration test skipped!')
+    # @unittest.skip('integration test skipped!')
     def test_should_stop_discode_manually(self):
         tester = ComponentTester()
         tester.resetTerminationStatements()
@@ -158,23 +158,30 @@ class TestComponentTester(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
-    @unittest.skip('integration test skipped!')
+    def test_should_run_predefined_task(self):
+        tester = ComponentTester()
+        tester.start('data/SequenceViewer.xml')
+        time.sleep(.500)
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('DCLs.\nKopiowanie TASKA!'))
+
+    # @unittest.skip('integration test skipped!')
     def test_should_stop_on_termination_statement(self):
         tester = ComponentTester()
-        tester.taskName = 'data/SequenceViewer.xml'
+        tester.resetTerminationStatements()
         tester.addTerminationStatement('ERROR')
-        tester.start()
+        tester.start('data/SequenceViewer.xml')
         time.sleep(.500)
 
         output = tester.getOutput()
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
-    @unittest.skip('integration test skipped!')
+    # @unittest.skip('integration test skipped!')
     def test_should_stop_on_error_by_default(self):
         tester = ComponentTester()
-        tester.taskName = 'data/SequenceViewer.xml'
-        tester.start()
+        tester.start('data/SequenceViewer.xml')
         time.sleep(.500)
 
         output = tester.getOutput()
@@ -194,7 +201,7 @@ class TestComponentTester(unittest.TestCase):
         print(libPath)
         assert_that(isfile(libPath), is_(True))
 
-    @unittest.skip('integration test skipped!')
+    # @unittest.skip('integration test skipped!')
     def test_should_check_component_output(self):
         tester = ComponentTester()
         # print('adding generator...')
