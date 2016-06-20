@@ -1,11 +1,16 @@
 from xml.dom.minidom import getDOMImplementation
+from os.path import isdir
+from os import makedirs
 
 
 class TaskBuilder:
-    def __init__(self):
-        self.fileName = ''
+    def __init__(self, fileName=''):
+        self.fileName = fileName
+        self.defaultTaskDir = 'data/test_tasks'
         self.taskBody = ''
         self.document = None
+        if not isdir(self.defaultTaskDir):
+            makedirs(self.defaultTaskDir)
 
     def writeToFile(self, string):
         with open(self.fileName, 'w') as file:

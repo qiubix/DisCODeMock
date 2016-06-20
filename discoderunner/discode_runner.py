@@ -1,5 +1,6 @@
 import signal
 import subprocess
+from sys import stdout
 
 # from discoderunner import DisCODeProcess, OutputMonitor
 
@@ -10,7 +11,9 @@ class DisCODeRunner:
         self.monitor = None
         self.taskName = ''
         self.terminationStatement = ''
+        self.terminationStatements = ['ERROR']
         self.killSignal = False
+        self.debugMode = False
         self.output = ''
         self.log = ''
         self.logLevel = ''
@@ -32,14 +35,14 @@ class DisCODeRunner:
         log = self.output + log
         return log
 
-    def start(self):
+    def start(self, out = stdout):
         command = self.getCommand()
         # print(command)
         self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                         universal_newlines=True)
 
-        if self.terminationStatement != '':
-            self.killOnTerminationStatement()
+        if self.terminationStatement != '' or len(self.terminationStatements) != 0:
+            self.killOnTerminationStatement(out)
 
     def getCommand(self):
         command = ['discode']
@@ -49,13 +52,16 @@ class DisCODeRunner:
             command.append('-L' + self.logLevel)
         return command
 
-    def killOnTerminationStatement(self):
+    def killOnTerminationStatement(self, out):
         while True:
             line = self.process.stdout.readline()
             self.output += line
-            if self.terminationStatement in line:
-                self.process.send_signal(signal.SIGINT)
-                break
+            if self.debugMode:
+                out.write(line)
+            for terminationStatement in self.terminationStatements:
+                if terminationStatement in line:
+                    self.process.send_signal(signal.SIGINT)
+                    return
 
     def kill(self):
         self.process.send_signal(signal.SIGINT)
