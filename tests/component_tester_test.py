@@ -1,6 +1,8 @@
 import time
 import unittest
 from os.path import isfile
+from os.path import isdir
+from shutil import rmtree
 from subprocess import call
 
 from hamcrest import *
@@ -17,6 +19,14 @@ class TestComponentTester(unittest.TestCase):
 
     def test_component_tester_running(self):
         assert_that(ComponentTester(), is_not(None))
+
+    def test_should_create_directory_for_tasks(self):
+        if isdir(self.defaultTaskDirectory):
+            rmtree(self.defaultTaskDirectory)
+
+        tester = ComponentTester()
+
+        assert_that(isdir(self.defaultTaskDirectory), is_(True))
 
     def test_should_save_to_default_file_on_init(self):
         tester = ComponentTester()
