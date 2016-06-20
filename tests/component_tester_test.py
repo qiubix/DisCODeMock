@@ -225,32 +225,39 @@ class TestComponentTester(unittest.TestCase):
         # print('finished printing output')
         assert_that(output, contains_string('[2, 2, 2, 2;\n  2, 2, 2, 2;\n  2, 2, 2, 2]'))
 
-    @unittest.skip('problem capturing stdout in test')
+    # TODO: fix test to capture real stdout
+    # @unittest.skip('problem capturing stdout in test')
     def test_should_print_output_in_debug_mode(self):
+        import sys
+        from io import StringIO
+        from unittest.mock import patch
         tester = ComponentTester()
         tester.taskName = 'data/SequenceViewer.xml'
 
         tester.setDebugMode(True)
 
-        from io import StringIO
-        from unittest.mock import patch
-        import sys
+        tester.start('data/SequenceViewer.xml')
+        # time.sleep(5)
+
+        output = sys.stdout.getvalue().strip()
+        output = tester.getOutput()
+        assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
 
         # with patch('sys.stdout', new=StringIO()) as fakeOutput:
         #     tester.start()
         #     output = fakeOutput.getvalue().strip()
         #     assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
-        try:
-            out = StringIO()
-            sys.stdout = out
+        # try:
+            # out = StringIO()
+            # sys.stdout = out
 
-            tester.start()
+            # tester.start('data/SequenceViewer.xml')
             # time.sleep(5)
 
-            output = out.getvalue().strip()
-            assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
-        finally:
-            sys.stdout = sys.__stdout__
+            # output = sys.stdout.getvalue().strip()
+            # assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
+        # finally:
+        #     sys.stdout = sys.__stdout__
 
 
 if __name__ == '__main__':

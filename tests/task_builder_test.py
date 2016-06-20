@@ -3,6 +3,7 @@ import xml.dom.minidom
 from hamcrest import *
 from subprocess import call
 from os.path import isdir
+from os.path import isfile
 from shutil import rmtree
 
 from discoderunner import TaskBuilder
@@ -17,7 +18,8 @@ class TaskBuilderTest(unittest.TestCase):
     def test_should_create_file_with_specific_name(self):
         file_name = 'data/test_tasks/sample_test_task.xml'
         sample_string = 'sample string'
-        call(['rm', 'data/test_tasks/sample_test_task.xml'])
+        if isfile(self.defaultFileName):
+            call(['rm', 'data/test_tasks/sample_test_task.xml'])
         self.builder.fileName = file_name
 
         self.builder.writeToFile(sample_string)
