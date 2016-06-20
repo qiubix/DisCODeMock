@@ -2,6 +2,9 @@ import unittest
 import xml.dom.minidom
 from hamcrest import *
 from subprocess import call
+from os.path import isdir
+from os.path import isfile
+from shutil import rmtree
 
 from discoderunner import TaskBuilder
 
@@ -9,12 +12,14 @@ from discoderunner import TaskBuilder
 class TaskBuilderTest(unittest.TestCase):
     def setUp(self):
         self.defaultFileName = 'data/test_tasks/test_task.xml'
+        self.defaultTaskDirectory = 'data/test_tasks/'
         self.builder = TaskBuilder()
 
     def test_should_create_file_with_specific_name(self):
         file_name = 'data/test_tasks/sample_test_task.xml'
         sample_string = 'sample string'
-        call(['rm', 'data/test_tasks/sample_test_task.xml'])
+        if isfile(self.defaultFileName):
+            call(['rm', 'data/test_tasks/sample_test_task.xml'])
         self.builder.fileName = file_name
 
         self.builder.writeToFile(sample_string)
@@ -22,6 +27,15 @@ class TaskBuilderTest(unittest.TestCase):
         with open(file_name) as file:
             contents = file.read()
         assert_that(contents, sample_string)
+
+    def test_should_create_directory_for_tasks(self):
+        if isdir(self.defaultTaskDirectory):
+            rmtree(self.defaultTaskDirectory)
+            # call(['rm -r', self.defaultTaskDirectory])
+
+        builder = TaskBuilder()
+
+        assert_that(isdir(self.defaultTaskDirectory), is_(True))
 
     def test_should_save_task_to_default_file(self):
         taskBody = 'Task body'

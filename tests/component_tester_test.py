@@ -1,6 +1,8 @@
 import time
 import unittest
 from os.path import isfile
+from os.path import isdir
+from shutil import rmtree
 from subprocess import call
 
 from hamcrest import *
@@ -11,16 +13,35 @@ from discoderunner import ComponentTester
 class TestComponentTester(unittest.TestCase):
     def setUp(self):
         self.defaultFileName = 'data/test_tasks/test_task.xml'
+        self.defaultTaskDirectory = 'data/test_tasks/'
         if isfile(self.defaultFileName):
             call(['rm', self.defaultFileName])
 
     def test_component_tester_running(self):
         assert_that(ComponentTester(), is_not(None))
 
+    def test_should_create_directory_for_tasks(self):
+        if isdir(self.defaultTaskDirectory):
+            rmtree(self.defaultTaskDirectory)
+
+        tester = ComponentTester()
+
+        assert_that(isdir(self.defaultTaskDirectory), is_(True))
+
     def test_should_save_to_default_file_on_init(self):
         tester = ComponentTester()
 
         assert_that(isfile(self.defaultFileName), is_(True))
+
+    def test_should_save_to_specific_file_on_init(self):
+        specificTaskName = 'specific_task'
+        specificTaskPath = self.defaultTaskDirectory + specificTaskName + '.xml'
+        if isfile(specificTaskPath):
+            call(['rm', specificTaskPath])
+
+        tester = ComponentTester(specificTaskName)
+
+        assert_that(isfile(specificTaskPath), is_(True))
 
     def test_should_create_task_template_on_init(self):
         tester = ComponentTester()
@@ -90,6 +111,7 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_run_discode(self):
         tester = ComponentTester()
+        tester.resetTerminationStatements()
         if isfile(self.defaultFileName):
             call(['rm', self.defaultFileName])
 
@@ -100,6 +122,7 @@ class TestComponentTester(unittest.TestCase):
 
     def test_should_run_task_with_default_name(self):
         tester = ComponentTester()
+        tester.resetTerminationStatements()
         print(call(['pwd']))
         if isfile(self.defaultFileName):
             call(['rm', self.defaultFileName])
@@ -112,6 +135,7 @@ class TestComponentTester(unittest.TestCase):
     # @unittest.skip('integration test skipped!')
     def test_should_run_specific_task(self):
         tester = ComponentTester()
+        tester.resetTerminationStatements()
         tester.taskName = 'SequenceViewer.xml'
 
         tester.start()
@@ -124,6 +148,7 @@ class TestComponentTester(unittest.TestCase):
     # @unittest.skip('integration test skipped!')
     def test_should_stop_discode_manually(self):
         tester = ComponentTester()
+        tester.resetTerminationStatements()
         tester.start()
         time.sleep(5)
 
@@ -133,12 +158,30 @@ class TestComponentTester(unittest.TestCase):
         assert_that(output, contains_string('Finishing DisCODe.'))
         assert_that(output, contains_string('Server stoped.'))
 
+    def test_should_run_predefined_task(self):
+        tester = ComponentTester()
+        tester.start('data/SequenceViewer.xml')
+        time.sleep(.500)
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('DCLs.\nKopiowanie TASKA!'))
+
     # @unittest.skip('integration test skipped!')
     def test_should_stop_on_termination_statement(self):
         tester = ComponentTester()
-        tester.taskName = 'data/SequenceViewer.xml'
-        tester.setTerminationStatement('ERROR')
-        tester.start()
+        tester.resetTerminationStatements()
+        tester.addTerminationStatement('ERROR')
+        tester.start('data/SequenceViewer.xml')
+        time.sleep(.500)
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('Finishing DisCODe.'))
+        assert_that(output, contains_string('Server stoped.'))
+
+    # @unittest.skip('integration test skipped!')
+    def test_should_stop_on_error_by_default(self):
+        tester = ComponentTester()
+        tester.start('data/SequenceViewer.xml')
         time.sleep(.500)
 
         output = tester.getOutput()
@@ -171,7 +214,7 @@ class TestComponentTester(unittest.TestCase):
         tester.addDataStream('Generator1', 'out_img', 'Summator', 'in_img1')
         tester.addDataStream('Generator2', 'out_img', 'Summator', 'in_img2')
         tester.addDataStream('Summator', 'out_img', 'Sink', 'in_img')
-        tester.setTerminationStatement('END OF SEQUENCE')
+        tester.addTerminationStatement('END OF SEQUENCE')
         # print('Task body:')
         # print(tester.taskBuilder.getTaskBody())
 
@@ -181,6 +224,40 @@ class TestComponentTester(unittest.TestCase):
         # print(output)
         # print('finished printing output')
         assert_that(output, contains_string('[2, 2, 2, 2;\n  2, 2, 2, 2;\n  2, 2, 2, 2]'))
+
+    # TODO: fix test to capture real stdout
+    # @unittest.skip('problem capturing stdout in test')
+    def test_should_print_output_in_debug_mode(self):
+        import sys
+        from io import StringIO
+        from unittest.mock import patch
+        tester = ComponentTester()
+        tester.taskName = 'data/SequenceViewer.xml'
+
+        tester.setDebugMode(True)
+
+        tester.start('data/SequenceViewer.xml')
+        # time.sleep(5)
+
+        output = sys.stdout.getvalue().strip()
+        output = tester.getOutput()
+        assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
+
+        # with patch('sys.stdout', new=StringIO()) as fakeOutput:
+        #     tester.start()
+        #     output = fakeOutput.getvalue().strip()
+        #     assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
+        # try:
+            # out = StringIO()
+            # sys.stdout = out
+
+            # tester.start('data/SequenceViewer.xml')
+            # time.sleep(5)
+
+            # output = sys.stdout.getvalue().strip()
+            # assert_that(output, contains_string('\x1b[33mWARNING: \x1b[00mConfiguration file config.xml not found.\n'))
+        # finally:
+        #     sys.stdout = sys.__stdout__
 
 
 if __name__ == '__main__':

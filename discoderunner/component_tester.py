@@ -2,8 +2,11 @@ from discoderunner import DisCODeRunner, TaskBuilder
 
 
 class ComponentTester:
-    def __init__(self):
-        self.taskBuilder = TaskBuilder()
+    def __init__(self, taskName='test_task'):
+        self.taskDirectory = 'data/test_tasks/'
+        self.taskName = taskName + '.xml'
+        taskPath = self.taskDirectory + self.taskName
+        self.taskBuilder = TaskBuilder(taskPath)
         self.taskBuilder.createTemplate()
         self.taskBuilder.addDefaultExecutor()
         self.taskBuilder.save()
@@ -12,7 +15,6 @@ class ComponentTester:
         self.componentName = 'Component'
         self.componentOutput = 'out_data'
         self.runner = DisCODeRunner()
-        self.taskName = 'data/test_tasks/test_task.xml'
 
     def setComponent(self, componentName, componentType):
         self.taskBuilder.addComponent(componentName, componentType)
@@ -30,8 +32,11 @@ class ComponentTester:
         self.taskBuilder.addDataStream(sourceName + '.' + sourcePort, sinkName + '.' + sinkPort)
         self.taskBuilder.save()
 
-    def start(self):
-        self.runner.taskName = self.taskName
+    def start(self, taskName=''):
+        if taskName is '':
+            self.runner.taskName = self.taskDirectory + self.taskName
+        else:
+            self.runner.taskName = taskName
         self.runner.start()
 
     def getOutput(self):
@@ -40,5 +45,11 @@ class ComponentTester:
     def stop(self):
         self.runner.kill()
 
-    def setTerminationStatement(self, terminationStatement):
-        self.runner.terminationStatement = terminationStatement
+    def addTerminationStatement(self, terminationStatement):
+        self.runner.terminationStatements.append(terminationStatement)
+
+    def resetTerminationStatements(self):
+        self.runner.terminationStatements = []
+
+    def setDebugMode(self, debugMode):
+        self.runner.debugMode = debugMode
