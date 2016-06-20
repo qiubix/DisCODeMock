@@ -53,3 +53,6 @@ class ComponentTester:
 
     def setDebugMode(self, debugMode):
         self.runner.debugMode = debugMode
+
+    def setLogLevel(self, logLevel):
+        self.runner.logLevel = logLevel

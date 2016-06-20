@@ -259,6 +259,17 @@ class TestComponentTester(unittest.TestCase):
         # finally:
         #     sys.stdout = sys.__stdout__
 
+    def test_should_set_desired_logging_level(self):
+        tester = ComponentTester()
+        tester.taskName = 'data/SequenceViewer.xml'
+        tester.setLogLevel('0')
+
+        tester.start('data/SequenceViewer.xml')
+
+        output = tester.getOutput()
+        assert_that(output, contains_string('INFO'))
+        assert_that(output, contains_string('TRACE'))
+
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore', verbosity=2)
