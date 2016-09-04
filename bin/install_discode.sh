@@ -13,7 +13,7 @@ mkdir -p ~/src/DCL
 if [ ! -d ~/src/DCL/CvCoreTypes ]; then
   git clone https://github.com/maciek-slon/CvCoreTypes.git ~/src/DCL/CvCoreTypes
   cd ~/src/DCL/CvCoreTypes && mkdir build && cd build
-  cmake .. && make -j3 && make install
+  cmake .. -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=true && make CameraInfoProvider -j3 && make install/fast
 fi
 
 if [ ! -d ~/src/DCL/CvBasic ]; then
