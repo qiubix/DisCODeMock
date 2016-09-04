@@ -6,7 +6,7 @@ from os.path import isdir
 from os.path import isfile
 from shutil import rmtree
 
-from discoderunner import TaskBuilder
+from discodetestframework import TaskBuilder
 
 
 class TaskBuilderTest(unittest.TestCase):

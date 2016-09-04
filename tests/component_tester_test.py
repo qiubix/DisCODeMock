@@ -7,7 +7,7 @@ from subprocess import call
 
 from hamcrest import *
 
-from discoderunner import ComponentTester
+from discodetestframework import ComponentTester
 
 
 class TestComponentTester(unittest.TestCase):

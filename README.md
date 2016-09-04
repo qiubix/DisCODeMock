@@ -1,7 +1,7 @@
-# DisCODe runner
+# DisCODe Test Framework
 
-[![Build Status](https://travis-ci.org/qiubix/DisCODeRunner.svg?branch=master)](https://travis-ci.org/qiubix/DisCODeRunner)
-[![Coverage Status](https://coveralls.io/repos/github/qiubix/DisCODeRunner/badge.svg?branch=master)](https://coveralls.io/github/qiubix/DisCODeRunner?branch=master)
+[![Build Status](https://travis-ci.org/qiubix/DisCODeTestFramework.svg?branch=master)](https://travis-ci.org/qiubix/DisCODeTestFramework)
+[![Coverage Status](https://coveralls.io/repos/github/qiubix/DisCODeTestFramework/badge.svg?branch=master)](https://coveralls.io/github/qiubix/DisCODeTestFramework?branch=master)
 
 Framework for testing DisCODe components at runtime.
 
@@ -13,15 +13,19 @@ If you need to install this library locally, run:
 `python setup.py install --user`
 
 ## Usage
-In order to use this library, you need to import `discoderunner` package:
+In order to use this library, you need to import `discodetestframework` package:
 
-`>>> import discoderunner`
+`>>> import discodetestframework`
 
-`>>> tester = discoderunner.ComponentTester()`
+`>>> tester = discodetestframework.ComponentTester()`
 
 or:
 
-`>>> from discoderunner import ComponentTester`
+`>>> from discodetestframework import ComponentTester`
 
 `>>> tester = ComponentTester()`
 
+## Running tests
+
+To run tests for this framework:
+`python setup.py test`

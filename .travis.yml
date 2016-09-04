@@ -21,11 +21,11 @@ before_script:
   - export PYTHONPATH='.'
   - export PATH=$PATH:/home/travis/src/DisCODe/build/inst/bin
   - export DISCODE_DCL_DIR=/home/travis/src/DCL/
-  - cd ~/build/qiubix/DisCODeRunner
+  - cd ~/build/qiubix/DisCODeTestFramework
   - mkdir -p data/test_tasks
   - python setup.py install
   - install_discode.sh
 script:
-  - coverage run --source=discoderunner setup.py test
+  - coverage run --source=discodetestframework setup.py test
 after_success:
   - coveralls

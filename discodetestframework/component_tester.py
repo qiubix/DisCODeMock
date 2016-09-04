@@ -1,4 +1,4 @@
-from discoderunner import DisCODeRunner, TaskBuilder
+from discodetestframework import DisCODeRunner, TaskBuilder
 
 
 class ComponentTester:

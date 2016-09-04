@@ -6,15 +6,15 @@ def readme():
         return file.read()
 
 
-setup(name='discoderunner',
+setup(name='discodetestframework',
       version='0.1',
       description='Integration testing for DisCODe',
       long_description=readme(),
-      url='http://github.com/qiubix/DisCODeRunner',
+      url='http://github.com/qiubix/DisCODeTestFramework',
       author='qiubix',
       author_email='qiubix@gmail.com',
       license='MIT',
-      packages=['discoderunner'],
+      packages=['discodetestframework'],
       install_requires=[
           'pyhamcrest',
       ],
